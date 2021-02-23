@@ -19,16 +19,14 @@
 			if(user.length==0){
 				document.getElementById('msg1').style.color = 'red';
 				document.getElementById('msg1').innerHTML = 'Empty Username Not Allowed';
-				if(flag) document.registration.username.focus();
+				if(flag) document.login.username.focus();
 				flag=0;
-				return false;
 			}
 			if(pass.length==0){
 				document.getElementById('msg2').style.color = 'red';
 				document.getElementById('msg2').innerHTML = 'Empty Password Not Allowed';
-				if(flag) document.registration.password.focus();
+				if(flag) document.login.password.focus();
 				flag=0;
-				return false;
 			}
 			if(flag==0) return false;
 			return true;
@@ -51,9 +49,8 @@
 	</nav>
 	<div style="width: 100%">
 		<div class="row">
-			<img style="margin-left: 8%; margin-top: 8%;" src="login.svg" width="40%">
+			<div><img style="margin-left: 8%; margin-top: 20%;" src="login.svg" width="85%"></div>
 			<div style="width: 50%; padding-top: 10%; padding-left: 10%;">
-				<!-- <center> -->
 					<form method="post"  name="login" onsubmit="return valid();">
 						<fieldset>
 							<legend>
@@ -70,8 +67,8 @@
 							<div class="form-group" style="width: 500px;">
 								<label>Enter Password</label>
 								<input type="password" class="form-control" name="password">
-								<i><span id="msg2" style="font-size: 12px;"></span></i>
-								<a href="forgot-password.php">
+								<i><span id="msg2" style="font-size: 12px;"></span></i><br>
+								<a href="forgot-password.php" style="font-size: 15px;">
 									Forgot Password ?
 								</a>
 							</div><br>

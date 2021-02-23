@@ -59,7 +59,6 @@
 	</style>
 </head>
 <body>
-	
 	<nav class="navbar navbar-light bg-dark navbar-expand">
 	  <div class="container-fluid" style=" margin-left: 10%;">
 	    <a class="navbar-brand" href="#">
@@ -67,10 +66,10 @@
 	    </a>
 	  </div>
 	</nav>
-	<div style="width: 100%">
+	<div style="width: 100%;">
 		<div class="row">
-			<img style="margin-left: 8%; margin-top: 8%;" src="login.svg" width="40%">
-			<div style="width: 50%; padding-top: 5%; padding-left: 10%;">
+			<div><img style="margin-left: 8%; margin-top: 20%;" src="login.svg" width="85%"></div>
+			<div style="width: 50%; padding-top: 5%; padding-left: 10%; height: 70%; ">
 				<!-- <center> -->
 					<form method="post" name="registration" onSubmit="return valid();">
 						<fieldset>
