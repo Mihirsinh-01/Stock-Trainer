@@ -81,7 +81,7 @@
 							<div>
 								Don't have an account yet?
 								<a href="register.php">
-									Create an
+									Create an account
 								</a>
 							</div>
 						</fieldset>
