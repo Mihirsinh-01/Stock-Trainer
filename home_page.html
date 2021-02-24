@@ -10,6 +10,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Morphext/2.4.4/morphext.min.js" integrity="sha512-WPYLBBtLFRUKCbj+PI7iHTL9ORQvxc7uhsb7bIQMKoRPYbiybfoIKIxJ7ynVwrGpspeR2K7WFODUST/xDLg1wA==" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="styles.css">
 	
 </head>
@@ -23,16 +25,30 @@
 	</nav>
 	<div style="width: 100%">
 		<div class="row">
-			<img style="margin-left: 8%; margin-top: 8%;" src="homepage.svg" width="40%">	
+			<img style="margin-left: 8%; margin-top: 8%;" src="images/homepage.svg" width="40%">	
 			<div style="width: 50%; padding-top: 10%; padding-left: 4%;">
 				<center>
 					<h1 style="font-size: 70px; font-family: 'Robosto';">Welcome to Stock Trainer</h1>
-					<p style="margin-top: 5%; margin-bottom: 10%; font-family:'Lato'; font-size: 25px;">Learn Stock Marketing with realtime prices at zero risk.</p>
+					<h2 style="margin-top: 5%; margin-bottom: 10%;font-family: 'Lato';">
+						<b>We Provide You with<br>
+							<div style="margin-top: 2%;color: #6666ff; font-size: 60px;"><span id="js-rotating">Risk Free Learning, No Ads, Realtime Prices</span></div>
+						</b>
+					</h2><br>
 					<a href="login.php"><button>Login</button></a>
 					<a href="register.php"><button>Register</button></a>
 				</center>
 			</div>
 		</div>
 	</div>
+	<script>
+		
+		$("#js-rotating").Morphext({
+		    animation: "bounceIn",
+		    separator: ",",
+		    speed: 1000,
+		    complete: function () {
+		    }
+		});
+	</script>
 </body>
 </html>

@@ -10,6 +10,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script type="text/javascript"></script>
+
 	<link rel="stylesheet" href="styles.css">
 	<script type="text/javascript">
 		function valid(){
@@ -49,7 +50,7 @@
 	</nav>
 	<div style="width: 100%">
 		<div class="row">
-			<div><img style="margin-left: 8%; margin-top: 20%;" src="login.svg" width="85%"></div>
+			<div><img style="margin-left: 8%; margin-top: 20%;" src="images/login.svg" width="85%"></div>
 			<div style="width: 50%; padding-top: 10%; padding-left: 10%;">
 					<form method="post"  name="login" onsubmit="return valid();">
 						<fieldset>
@@ -58,7 +59,7 @@
 							</legend>
 							<p>
 								<br>
-							</p>
+							</p><div style="height: 20%">
 							<div class="form-group" style="width: 500px;">
 								<label>Enter Username</label>
 								<input type="text" class="form-control" name="username">
@@ -71,7 +72,7 @@
 								<a href="forgot-password.php" style="font-size: 15px;">
 									Forgot Password ?
 								</a>
-							</div><br>
+							</div><br></div>
 							<div class="form-actions">
 								<button type="submit" name="submit" style="padding-top: 0px;">
 									Login

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register Account</title>
+	<title>Forgot Passsword</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -68,29 +68,36 @@
 	</nav>
 	<div style="width: 100%;">
 		<div class="row">
-			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/register.svg" width="85%"></div>
-			<div style="width: 50%; padding-top: 5%; padding-left: 10%; height: 70%; ">
+			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/forgot.svg" width="60%"></div>
+			<div style="padding-top: 5%; height: 70%; ">
 				<!-- <center> -->
-					<form method="post" name="registration" onSubmit="return valid();">
+					<form method="get" name="registration" onSubmit="return valid();">
 						<fieldset>
 							<legend>
-								<h1><font style="font-family: 'Robosto'">Create New Account</font></h1>
+								<h1><font style="font-family: 'Robosto'">Reset Password</font></h1>
 							</legend>
 							<p>
 								<br>
 							</p>
-							<div class="form-group" style="width: 500px;">
-								<label>Enter Username</label>
+							<div class="form-group col-xs-3">
+								<label>Enter Email Id</label><br>
 								<input type="text" class="form-control" name="username">
+								<a href="?function=false">Send OTP</a><br>
 								<i><span id="msg1" style="font-size: 12px;"></span></i>
+								<?php
+								if(isset($_GET['function'])){
+									echo "YESSS<br>";
+								}
+								?>
+
 							</div>
 							<div class="form-group" style="width: 500px;">
-								<label>Enter Email id</label>
+								<label>Enter OTP</label>
 								<input type="text" class="form-control" name="email">
 								<i><span id="msg2" style="font-size: 12px;"></span></i>
 							</div>
 							<div class="form-group" style="width: 500px;">
-								<label>Enter Password</label>
+								<label>Enter New Password</label>
 								<input type="password" class="form-control" name="password">
 								<i><span id="msg3" style="font-size: 12px;"></span></i>
 							</div>
@@ -100,8 +107,8 @@
 								<i><span id="msg4" style="font-size: 12px;"></span></i>
 							</div><br>
 							<div class="form-actions">
-								<button type="submit" name="submit" style="padding-top: 0px;">
-									Signup
+								<button type="submit" name="submit" style="padding-top: 0px; width: 50%">
+									Reset Password
 								</button>
 							</div><br><br>
 						</fieldset>
