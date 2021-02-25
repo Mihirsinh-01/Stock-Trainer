@@ -1,32 +1,5 @@
 <?php
-
 	session_start();
-	if(isset($_POST['submit'])){
-
-		$otp=$_POST['username'];
-		$pass=$_POST['password'];
-
-		if($_SESSION['otp']==$otp){
-			include("include/config.php");
-
-			
-
-			$sql = "UPDATE login SET password='".$pass."' WHERE email='".$_SESSION['email']."'";
-
-			if (mysqli_query($conn, $sql)) {
-			  echo '<script type="text/javascript"> window.location = "login.php" </script>';
-			} 
-			// else {
-			//   echo "Error updating record: " . mysqli_error($conn);
-			// }
-		}
-		else{
-			// echo "ljkj";
-			echo "<script>document.getElementById('msg1').style.color = 'red';
-			document.getElementById('msg1').innerHTML = 'Invalid OTP';</script>";
-		}
-	}
-
 ?>
 
 
@@ -139,3 +112,33 @@
 	</div>
 </body>
 </html>
+
+<?php
+
+	if(isset($_POST['submit'])){
+
+		$otp=$_POST['username'];
+		$pass=$_POST['password'];
+
+		if($_SESSION['otp']==$otp){
+			include("include/config.php");
+
+			
+
+			$sql = "UPDATE login SET password='".$pass."' WHERE email='".$_SESSION['email']."'";
+
+			if (mysqli_query($conn, $sql)) {
+			  echo '<script type="text/javascript"> window.location = "login.php" </script>';
+			} 
+			// else {
+			//   echo "Error updating record: " . mysqli_error($conn);
+			// }
+		}
+		else{
+			// echo "ljkj";
+			echo "<script>document.getElementById('msg1').style.color = 'red';
+			document.getElementById('msg1').innerHTML = 'Invalid OTP';</script>";
+		}
+	}
+
+?>

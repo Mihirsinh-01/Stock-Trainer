@@ -1,33 +1,3 @@
-<?php
-
-	error_reporting(0);
-	include("include/config.php");
-
-	if(isset($_POST['submit'])){
-		$user=$_POST['username'];
-		$email=$_POST['email'];
-		$pass=$_POST['password'];
-		$balance=500000.00;
-
-
-		$sql1= "SELECT * FROM login WHERE username='".$user."'";
-		$result = $conn->query($sql1);
-		if ($result->num_rows > 0) {
-			echo "<script>document.getElementById('msg1').style.color = 'red';
-			document.getElementById('msg1').innerHTML = 'Username is already taken';</script>";
-		}
-		else{
-			$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
-			if ($conn->query($sql) === TRUE) {
-				echo '<script type="text/javascript"> window.location = "login.php" </script>';
-			}
-		}
-	}
-
-	
-?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -153,4 +123,31 @@
 </html>
 
 
+<?php
 
+	error_reporting(0);
+	include("include/config.php");
+
+	if(isset($_POST['submit'])){
+		$user=$_POST['username'];
+		$email=$_POST['email'];
+		$pass=$_POST['password'];
+		$balance=500000.00;
+
+
+		$sql1= "SELECT * FROM login WHERE username='".$user."'";
+		$result = $conn->query($sql1);
+		if ($result->num_rows > 0) {
+			echo "<script>document.getElementById('msg1').style.color = 'red';
+			document.getElementById('msg1').innerHTML = 'Username is already taken';</script>";
+		}
+		else{
+			$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
+			if ($conn->query($sql) === TRUE) {
+				echo '<script type="text/javascript"> window.location = "login.php" </script>';
+			}
+		}
+	}
+
+	
+?>

@@ -1,37 +1,5 @@
 <?php
-
 	session_start();
-	error_reporting(0);
-	include("include/config.php");
-
-	if(isset($_POST['submit'])){
-		$user=$_POST['username'];
-		$pass=$_POST['password'];
-
-		$sql1= "SELECT password FROM login WHERE username='".$user."'";
-
-		$result = $conn->query($sql1);
-		if ($result->num_rows > 0) {
-			$ans=null;
-			while($row = $result->fetch_assoc()) {
-				$ans=$row["password"];
-			}
-			if($pass==$ans){
-				$_SESSION['username']=$username;
-				echo '<script type="text/javascript"> window.location = "registration.php" </script>';
-			}
-			else{
-				echo "<script>document.getElementById('msg2').style.color = 'red';
-				document.getElementById('msg2').innerHTML = 'Wrong password';</script>";
-			}
-		}
-		else{
-			echo "<script>document.getElementById('msg1').style.color = 'red';
-			document.getElementById('msg1').innerHTML = 'Invalid username';</script>";
-		}
-	}
-
-	
 ?>
 
 
@@ -111,7 +79,7 @@
 								</a>
 							</div><br></div>
 							<div class="form-actions">
-								<button type="submit" name="submit" style="padding-top: 0px;">
+								<button type="submit" name="submit" style="padding-top: 0%;">
 									Login
 								</button>
 							</div><br><br>
@@ -130,4 +98,38 @@
 </body>
 </html>
 
+<?php
 
+	
+	error_reporting(0);
+	include("include/config.php");
+
+	if(isset($_POST['submit'])){
+		$user=$_POST['username'];
+		$pass=$_POST['password'];
+
+		$sql1= "SELECT password FROM login WHERE username='".$user."'";
+
+		$result = $conn->query($sql1);
+		if ($result->num_rows > 0) {
+			$ans=null;
+			while($row = $result->fetch_assoc()) {
+				$ans=$row["password"];
+			}
+			if($pass==$ans){
+				$_SESSION['username']=$username;
+				echo '<script type="text/javascript"> window.location = "registration.php" </script>';
+			}
+			else{
+				echo "<script>document.getElementById('msg2').style.color = 'red';
+				document.getElementById('msg2').innerHTML = 'Wrong password';</script>";
+			}
+		}
+		else{
+			echo "<script>document.getElementById('msg1').style.color = 'red';
+			document.getElementById('msg1').innerHTML = 'Invalid username';</script>";
+		}
+	}
+
+	
+?>

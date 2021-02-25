@@ -1,71 +1,7 @@
-
 <?php
-
 	session_start();
-	include("include/config.php");
-
-	if(isset($_POST['submit'])){
-
-		// echo "nljn";
-		$email=$_POST['username'];
-		// echo $email;
-
-		$sql1= "SELECT * FROM login WHERE email='".$email."'";
-
-		$result = $conn->query($sql1);
-		if ($result->num_rows > 0) {
-			// echo "lnholn";
-			$_SESSION['email']=$email;
-			send_otp();
-		}
-		else{
-			echo "Enter valid email";
-			echo "<script>document.getElementById('msg1').style.color = 'red';
-			document.getElementById('msg1').innerHTML = 'Invalid Email';</script>";
-		}
-
-		// if($_SESSION['otp']==$otp){
-		// 	include("include/config.php");
-
-		// 	$sql = "UPDATE login SET password='".$pass."' WHERE email='".$email."'";
-
-		// 	if (mysqli_query($conn, $sql)) {
-		// 	  echo '<script type="text/javascript"> window.location = "login.php" </script>';
-		// 	} 
-		// 	// else {
-		// 	//   echo "Error updating record: " . mysqli_error($conn);
-		// 	// }
-		// }
-	}
-	function send_otp(){
-
-		$otp=rand(1000,9999);
-		$_SESSION['otp']=$otp;
-
-		require_once('Mail/PHPMailer/PHPMailerAutoload.php');
-		$mail=new PHPMailer();
-		$mail->isSMTP();
-		$mail->SMTPAuth=true;
-		$mail->SMTPSecure='ssl';
-		$mail->Host='smtp.gmail.com';
-		$mail->Port='465';
-		$mail->isHTML();
-		$mail->Username='noreply.stocktrainer@gmail.com';
-		$mail->Password='alpqpsj34hdf7343n';
-		$mail->SetFrom('no-reply@gmail.com');
-		$mail->Subject='OTP verification';
-		$mail->Body='OTP for your Password RESET Request is <h1>'.$otp.'</h1>';
-		$mail->AddAddress($_POST['username']);
-		
-		$mail->Send();
-		
-		echo '<script type="text/javascript"> window.location = "getotp.php" </script>';
-
-	}
-
-	
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,7 +44,7 @@
 	    </a>
 	  </div>
 	</nav>
-	<div style="width: 100%;">
+	<div style="width: 100%;font-family: 'Robosto'">
 		<div class="row">
 			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/forgot.svg" width="60%"></div>
 			<div style="padding-top: 13%; height: 70%; ">
@@ -116,15 +52,15 @@
 					<form method="POST" name="registration" onsubmit="return valid();">
 						<fieldset>
 							<legend>
-								<h1><font style="font-family: 'Robosto'">Reset Password</font></h1>
+								<h1><font style="font-size: 50px;">Reset Password</font></h1>
 							</legend>
 							<p>
 								<br>
 							</p>
 							<div class="form-group">
-								<label>Enter Email Id</label><br>
-								<input type="text" class="form-control" name="username" id="username">
-								<i><span id="msg1" style="font-size: 12px;"></span></i>
+								<label style="font-size: 30px;">Enter Email Id</label><br>
+								<input type="text" class="form-control" name="username" id="username"/>
+								<i><span id="msg1" style="font-size: 20px;"></span></i>
 							</div>
 							<br>
 							<div class="form-actions">
@@ -142,3 +78,72 @@
 </html>
 
 
+<?php
+
+	include("include/config.php");
+
+	if(isset($_POST['submit'])){
+
+		// echo "nljn";
+		$email=$_POST['username'];
+		// echo $email;
+
+		$sql1= "SELECT * FROM login WHERE email='".$email."'";
+
+		$result = $conn->query($sql1);
+		if ($result->num_rows > 0) {
+			// echo "lnholn";
+			$_SESSION['email']=$email;
+
+			$otp=rand(1000,9999);
+			$_SESSION['otp']=$otp;
+
+			echo '<script type="text/javascript"> window.location = "getotp.php" </script>';
+		
+			send_otp($otp);
+		}
+		else{
+			echo "<script>document.getElementById('msg1').style.color = 'red';
+			document.getElementById('msg1').innerHTML = 'Invalid Email ID';</script>";
+		}
+
+		// if($_SESSION['otp']==$otp){
+		// 	include("include/config.php");
+
+		// 	$sql = "UPDATE login SET password='".$pass."' WHERE email='".$email."'";
+
+		// 	if (mysqli_query($conn, $sql)) {
+		// 	  echo '<script type="text/javascript"> window.location = "login.php" </script>';
+		// 	} 
+		// 	// else {
+		// 	//   echo "Error updating record: " . mysqli_error($conn);
+		// 	// }
+		// }
+	}
+	function send_otp($otp){
+
+
+		require_once('Mail/PHPMailer/PHPMailerAutoload.php');
+		$mail=new PHPMailer();
+		$mail->isSMTP();
+		$mail->SMTPAuth=true;
+		$mail->SMTPSecure='ssl';
+		$mail->Host='smtp.gmail.com';
+		$mail->Port='465';
+		$mail->isHTML();
+		$mail->Username='noreply.stocktrainer@gmail.com';
+		$mail->Password='alpqpsj34hdf7343n';
+		$mail->SetFrom('no-reply@gmail.com');
+		$mail->Subject='OTP verification';
+		$mail->Body='OTP for your Password RESET Request is <h1>'.$otp.'</h1>';
+		$mail->AddAddress($_POST['username']);
+		
+		$mail->Send();
+		
+		
+
+	}
+
+	
+
+?>
