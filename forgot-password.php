@@ -1,3 +1,71 @@
+
+<?php
+
+	session_start();
+	include("include/config.php");
+
+	if(isset($_POST['submit'])){
+
+		// echo "nljn";
+		$email=$_POST['username'];
+		// echo $email;
+
+		$sql1= "SELECT * FROM login WHERE email='".$email."'";
+
+		$result = $conn->query($sql1);
+		if ($result->num_rows > 0) {
+			// echo "lnholn";
+			$_SESSION['email']=$email;
+			send_otp();
+		}
+		else{
+			echo "Enter valid email";
+			echo "<script>document.getElementById('msg1').style.color = 'red';
+			document.getElementById('msg1').innerHTML = 'Invalid Email';</script>";
+		}
+
+		// if($_SESSION['otp']==$otp){
+		// 	include("include/config.php");
+
+		// 	$sql = "UPDATE login SET password='".$pass."' WHERE email='".$email."'";
+
+		// 	if (mysqli_query($conn, $sql)) {
+		// 	  echo '<script type="text/javascript"> window.location = "login.php" </script>';
+		// 	} 
+		// 	// else {
+		// 	//   echo "Error updating record: " . mysqli_error($conn);
+		// 	// }
+		// }
+	}
+	function send_otp(){
+
+		$otp=rand(1000,9999);
+		$_SESSION['otp']=$otp;
+
+		require_once('Mail/PHPMailer/PHPMailerAutoload.php');
+		$mail=new PHPMailer();
+		$mail->isSMTP();
+		$mail->SMTPAuth=true;
+		$mail->SMTPSecure='ssl';
+		$mail->Host='smtp.gmail.com';
+		$mail->Port='465';
+		$mail->isHTML();
+		$mail->Username='noreply.stocktrainer@gmail.com';
+		$mail->Password='alpqpsj34hdf7343n';
+		$mail->SetFrom('no-reply@gmail.com');
+		$mail->Subject='OTP verification';
+		$mail->Body='OTP for your Password RESET Request is <h1>'.$otp.'</h1>';
+		$mail->AddAddress($_POST['username']);
+		
+		$mail->Send();
+		
+		echo '<script type="text/javascript"> window.location = "getotp.php" </script>';
+
+	}
+
+	
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,43 +81,17 @@
 	<link rel="stylesheet" href="styles.css">
 	<script type="text/javascript">
 		function valid(){
-			var pass=document.registration.password.value;
-			var confpass=document.registration.confirmpassword.value;
 			var user=document.registration.username.value;
-			var email=document.registration.email.value
 			var flag=1;
 			if(user.length==0){
 				document.getElementById('msg1').style.color = 'red';
-				document.getElementById('msg1').innerHTML = 'Empty Username Not Allowed';
+				document.getElementById('msg1').innerHTML = 'Empty Email Not Allowed';
 				if(flag) document.registration.username.focus();
 				flag=0;
 			}
-			if(email.length==0){
-				document.getElementById('msg2').style.color = 'red';
-				document.getElementById('msg2').innerHTML = 'Empty Email Not Allowed';
-				if(flag) document.registration.email.focus();
-				flag=0;
-			}
-			if(pass.length==0){
-				document.getElementById('msg3').style.color = 'red';
-				document.getElementById('msg3').innerHTML = 'Empty Password Not Allowed';
-				if(flag) document.registration.password.focus();
-				flag=0;
-			}
-			if(confpass.length==0){
-				document.getElementById('msg4').style.color = 'red';
-				document.getElementById('msg4').innerHTML = 'Enter Confirmation Password';
-				if(flag) document.registration.confirmpassword.focus();
-				flag=0;
-			}
-			if(pass!=confpass){
-				if(flag) document.registration.confirmpassword.focus();
-				document.getElementById('msg4').style.color = 'red';
-				document.getElementById('msg4').innerHTML = 'Confirm Password Not Matching';
-				flag=0;
-			}
+			
 			if(flag==0) return false;
-			return false;
+			return true;
 		}
 	</script>
 	<style type="text/css">
@@ -69,9 +111,9 @@
 	<div style="width: 100%;">
 		<div class="row">
 			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/forgot.svg" width="60%"></div>
-			<div style="padding-top: 5%; height: 70%; ">
+			<div style="padding-top: 13%; height: 70%; ">
 				<!-- <center> -->
-					<form method="get" name="registration" onSubmit="return valid();">
+					<form method="POST" name="registration" onsubmit="return valid();">
 						<fieldset>
 							<legend>
 								<h1><font style="font-family: 'Robosto'">Reset Password</font></h1>
@@ -79,36 +121,15 @@
 							<p>
 								<br>
 							</p>
-							<div class="form-group col-xs-3">
+							<div class="form-group">
 								<label>Enter Email Id</label><br>
-								<input type="text" class="form-control" name="username">
-								<a href="?function=false">Send OTP</a><br>
+								<input type="text" class="form-control" name="username" id="username">
 								<i><span id="msg1" style="font-size: 12px;"></span></i>
-								<?php
-								if(isset($_GET['function'])){
-									echo "YESSS<br>";
-								}
-								?>
-
 							</div>
-							<div class="form-group" style="width: 500px;">
-								<label>Enter OTP</label>
-								<input type="text" class="form-control" name="email">
-								<i><span id="msg2" style="font-size: 12px;"></span></i>
-							</div>
-							<div class="form-group" style="width: 500px;">
-								<label>Enter New Password</label>
-								<input type="password" class="form-control" name="password">
-								<i><span id="msg3" style="font-size: 12px;"></span></i>
-							</div>
-							<div class="form-group" style="width: 500px;">
-								<label>Confirm Password</label>
-								<input type="password" class="form-control" name="confirmpassword">
-								<i><span id="msg4" style="font-size: 12px;"></span></i>
-							</div><br>
+							<br>
 							<div class="form-actions">
 								<button type="submit" name="submit" style="padding-top: 0px; width: 50%">
-									Reset Password
+									Send OTP
 								</button>
 							</div><br><br>
 						</fieldset>
@@ -119,3 +140,5 @@
 	</div>
 </body>
 </html>
+
+

@@ -1,38 +1,39 @@
 <?php
 
-	error_reporting(0);
-	include("include/config.php");
-
+	session_start();
 	if(isset($_POST['submit'])){
-		$user=$_POST['username'];
-		$email=$_POST['email'];
+
+		$otp=$_POST['username'];
 		$pass=$_POST['password'];
-		$balance=500000.00;
 
+		if($_SESSION['otp']==$otp){
+			include("include/config.php");
 
-		$sql1= "SELECT * FROM login WHERE username='".$user."'";
-		$result = $conn->query($sql1);
-		if ($result->num_rows > 0) {
-			echo "<script>document.getElementById('msg1').style.color = 'red';
-			document.getElementById('msg1').innerHTML = 'Username is already taken';</script>";
+			
+
+			$sql = "UPDATE login SET password='".$pass."' WHERE email='".$_SESSION['email']."'";
+
+			if (mysqli_query($conn, $sql)) {
+			  echo '<script type="text/javascript"> window.location = "login.php" </script>';
+			} 
+			// else {
+			//   echo "Error updating record: " . mysqli_error($conn);
+			// }
 		}
 		else{
-			$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
-			if ($conn->query($sql) === TRUE) {
-				echo '<script type="text/javascript"> window.location = "login.php" </script>';
-			}
+			// echo "ljkj";
+			echo "<script>document.getElementById('msg1').style.color = 'red';
+			document.getElementById('msg1').innerHTML = 'Invalid OTP';</script>";
 		}
 	}
 
-	
 ?>
-
 
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register Account</title>
+	<title>Enter OTP</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -44,44 +45,36 @@
 	<link rel="stylesheet" href="styles.css">
 	<script type="text/javascript">
 		function valid(){
-			var pass=document.registration.password.value;
-			var confpass=document.registration.confirmpassword.value;
-			var user=document.registration.username.value;
-			var email=document.registration.email.value
+			var pass=document.otp.password.value;
+			var confpass=document.otp.confirmpassword.value;
+			var user=document.otp.username.value;
 			var flag=1;
 			if(user.length==0){
 				document.getElementById('msg1').style.color = 'red';
-				document.getElementById('msg1').innerHTML = 'Empty Username Not Allowed';
-				if(flag) document.registration.username.focus();
+				document.getElementById('msg1').innerHTML = 'Enter Proper OTP';
+				if(flag) document.otp.username.focus();
 				flag=0;
 			}
 			else{
 				document.getElementById('msg1').innerHTML = '';
 			}
-			if(email.length==0){
-				document.getElementById('msg2').style.color = 'red';
-				document.getElementById('msg2').innerHTML = 'Empty Email Not Allowed';
-				if(flag) document.registration.email.focus();
-				flag=0;
-			}
-			else document.getElementById('msg2').innerHTML = '';
 			if(pass.length==0){
 				document.getElementById('msg3').style.color = 'red';
 				document.getElementById('msg3').innerHTML = 'Empty Password Not Allowed';
-				if(flag) document.registration.password.focus();
+				if(flag) document.otp.password.focus();
 				flag=0;
 			}
 			else document.getElementById('msg3').innerHTML = '';
 			if(confpass.length==0){
 				document.getElementById('msg4').style.color = 'red';
 				document.getElementById('msg4').innerHTML = 'Enter Confirmation Password';
-				if(flag) document.registration.confirmpassword.focus();
+				if(flag) document.otp.confirmpassword.focus();
 				flag=0;
 			}
 			else document.getElementById('msg4').innerHTML = '';
 
 			if(pass!=confpass){
-				if(flag) document.registration.confirmpassword.focus();
+				if(flag) document.otp.confirmpassword.focus();
 				document.getElementById('msg4').style.color = 'red';
 				document.getElementById('msg4').innerHTML = 'Confirm Password Not Matching';
 				flag=0;
@@ -107,29 +100,24 @@
 	</nav>
 	<div style="width: 100%;">
 		<div class="row">
-			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/register.svg" width="85%"></div>
-			<div style="width: 50%; padding-top: 5%; padding-left: 10%; height: 70%; ">
+			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/otp.svg" width="70%"></div>
+			<div style="width: 40%; padding-top: 5%; height: 70%; ">
 				<!-- <center> -->
-					<form method="post" name="registration" onSubmit="return valid();">
+					<form method="post" name="otp" onSubmit="return valid();">
 						<fieldset>
 							<legend>
-								<h1><font style="font-family: 'Robosto'">Create New Account</font></h1>
+								<h1><font style="font-family: 'Robosto'">Reset Password</font></h1>
 							</legend>
 							<p>
 								<br>
 							</p>
 							<div class="form-group" style="width: 500px;">
-								<label>Enter Username</label>
+								<label>Enter One Time Password(OTP)</label>
 								<input type="text" class="form-control" name="username">
 								<i><span id="msg1" style="font-size: 12px;"></span></i>
 							</div>
 							<div class="form-group" style="width: 500px;">
-								<label>Enter Email id</label>
-								<input type="text" class="form-control" name="email">
-								<i><span id="msg2" style="font-size: 12px;"></span></i>
-							</div>
-							<div class="form-group" style="width: 500px;">
-								<label>Enter Password</label>
+								<label>Enter New Password</label>
 								<input type="password" class="form-control" name="password">
 								<i><span id="msg3" style="font-size: 12px;"></span></i>
 							</div>
@@ -140,7 +128,7 @@
 							</div><br>
 							<div class="form-actions">
 								<button type="submit" name="submit" style="padding-top: 0px;">
-									Signup
+									Reset
 								</button>
 							</div><br><br>
 						</fieldset>
@@ -151,6 +139,3 @@
 	</div>
 </body>
 </html>
-
-
-
