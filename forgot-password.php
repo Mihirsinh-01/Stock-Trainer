@@ -1,7 +1,5 @@
 <?php
 	session_start();
-	include('include/checklogin.php');
-check_login();
 ?>
 
 <!DOCTYPE html>
@@ -11,11 +9,11 @@ check_login();
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-	<script type="text/javascript"></script>
 	<link rel="stylesheet" href="css/styles.css">
 	<script type="text/javascript">
 		function valid(){
@@ -38,15 +36,15 @@ check_login();
 		}
 	</style>
 </head>
-<body>
+<body style="font-family: 'Robosto'">
 	<nav class="navbar navbar-light bg-dark navbar-expand">
 	  <div class="container-fluid" style=" margin-left: 10%;">
 	    <a class="navbar-brand" href="#">
-	      <font color="white" style="font-size: 30px; font-family: 'Robosto'">Stock Trainer</font>
+	      <font color="white" style="font-size: 30px;">Stock Trainer</font>
 	    </a>
 	  </div>
 	</nav>
-	<div style="width: 100%;font-family: 'Robosto'">
+	<div style="width: 100%;">
 		<div class="row">
 			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/forgot.svg" width="60%"></div>
 			<div style="padding-top: 13%; height: 70%; ">
@@ -107,6 +105,7 @@ check_login();
 		else{
 			echo "<script>document.getElementById('msg1').style.color = 'red';
 			document.getElementById('msg1').innerHTML = 'Invalid Email ID';</script>";
+			echo "<script>document.getElementById('username').value='".$email."';</script>";
 		}
 
 		// if($_SESSION['otp']==$otp){

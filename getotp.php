@@ -10,6 +10,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -62,11 +63,11 @@
 		}
 	</style>
 </head>
-<body>
+<body style="font-family: 'Robosto'">
 	<nav class="navbar navbar-light bg-dark navbar-expand">
 	  <div class="container-fluid" style=" margin-left: 10%;">
 	    <a class="navbar-brand" href="#">
-	      <font color="white" style="font-size: 30px; font-family: 'Robosto'">Stock Trainer</font>
+	      <font color="white" style="font-size: 30px;">Stock Trainer</font>
 	    </a>
 	  </div>
 	</nav>
@@ -78,7 +79,7 @@
 					<form method="post" name="otp" onSubmit="return valid();">
 						<fieldset>
 							<legend>
-								<h1><font style="font-family: 'Robosto'">Reset Password</font></h1>
+								<h1><font>Reset Password</font></h1>
 							</legend>
 							<p>
 								<br>
@@ -135,8 +136,10 @@
 		}
 		else{
 			// echo "ljkj";
+			
 			echo "<script>document.getElementById('msg1').style.color = 'red';
 			document.getElementById('msg1').innerHTML = 'Invalid OTP';</script>";
+			echo "<script>document.getElementById('username').value='".$otp."';</script>";
 		}
 	}
 

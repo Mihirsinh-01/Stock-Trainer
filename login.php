@@ -10,11 +10,13 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/dropdown.css">
 	<script type="text/javascript">
 		function valid(){
 			var pass=document.login.password.value;
@@ -42,15 +44,17 @@
 		}
 	</style>
 </head>
-<body>
+<body style="font-family: 'Robosto'">
 	
 	<nav class="navbar navbar-light bg-dark navbar-expand">
 	  <div class="container-fluid" style=" margin-left: 10%;">
 	    <a class="navbar-brand" href="#">
-	      <font color="white" style="font-size: 30px; font-family: 'Robosto'">Stock Trainer</font>
+	      <font color="white" style="font-size: 30px; ">Stock Trainer</font>
 	    </a>
 	  </div>
 	</nav>
+
+	
 	<div style="width: 100%">
 		<div class="row">
 			<div><img style="margin-left: 8%; margin-top: 20%;" src="images/login.svg" width="85%"></div>
@@ -58,14 +62,14 @@
 					<form method="post"  name="login" onsubmit="return valid();">
 						<fieldset>
 							<legend>
-								<h1><font style="font-family: 'Robosto'">Sign in to your account</font></h1>
+								<h1><font>Sign in to your account</font></h1>
 							</legend>
 							<p>
 								<br>
 							</p><div style="height: 20%">
 							<div class="form-group" style="width: 500px;">
 								<label>Enter Username</label>
-								<input type="text" class="form-control" name="username">
+								<input type="text" class="form-control" id="username" name="username">
 								<i><span id="msg1" style="font-size: 12px;"></span></i>
 							</div>
 							<div class="form-group" style="width: 500px;">
@@ -121,11 +125,13 @@
 			else{
 				echo "<script>document.getElementById('msg2').style.color = 'red';
 				document.getElementById('msg2').innerHTML = 'Wrong password';</script>";
+				echo "<script>document.getElementById('username').value='".$user."';</script>";
 			}
 		}
 		else{
 			echo "<script>document.getElementById('msg1').style.color = 'red';
 			document.getElementById('msg1').innerHTML = 'Invalid username';</script>";
+			echo "<script>document.getElementById('username').value='".$user."';</script>";
 		}
 	}
 

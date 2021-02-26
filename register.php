@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -25,7 +26,18 @@
 				flag=0;
 			}
 			else{
-				document.getElementById('msg1').innerHTML = '';
+				for (var i = 0; i<user.length; i++) {
+					if(Number.isInteger(user.charAt(i)) || (/[a-zA-Z]/).test(user.charAt(i)) || user.charAt(i)=='_'){
+						var x=0;
+					}
+					else{
+						document.getElementById('msg1').style.color = 'red';
+						document.getElementById('msg1').innerHTML = 'Only Alphabets, Digits and "_" are Allowed';
+						if(flag) document.registration.username.focus();
+						flag=0;
+					}
+				}
+				if(flag) document.getElementById('msg1').innerHTML = '';
 			}
 			if(email.length==0){
 				document.getElementById('msg2').style.color = 'red';
@@ -66,11 +78,11 @@
 		}
 	</style>
 </head>
-<body>
+<body style="font-family: 'Robosto'">
 	<nav class="navbar navbar-light bg-dark navbar-expand">
 	  <div class="container-fluid" style=" margin-left: 10%;">
 	    <a class="navbar-brand" href="#">
-	      <font color="white" style="font-size: 30px; font-family: 'Robosto'">Stock Trainer</font>
+	      <font color="white" style="font-size: 30px;">Stock Trainer</font>
 	    </a>
 	  </div>
 	</nav>
@@ -82,29 +94,29 @@
 					<form method="post" name="registration" onSubmit="return valid();">
 						<fieldset>
 							<legend>
-								<h1><font style="font-family: 'Robosto'">Create New Account</font></h1>
+								<h1><font>Create New Account</font></h1>
 							</legend>
 							<p>
 								<br>
 							</p>
 							<div class="form-group" style="width: 500px;">
 								<label>Enter Username</label>
-								<input type="text" class="form-control" name="username">
+								<input type="text" class="form-control" id="username" name="username">
 								<i><span id="msg1" style="font-size: 12px;"></span></i>
 							</div>
 							<div class="form-group" style="width: 500px;">
 								<label>Enter Email id</label>
-								<input type="text" class="form-control" name="email">
+								<input type="text" class="form-control" id="email" name="email">
 								<i><span id="msg2" style="font-size: 12px;"></span></i>
 							</div>
 							<div class="form-group" style="width: 500px;">
 								<label>Enter Password</label>
-								<input type="password" class="form-control" name="password">
+								<input type="password" class="form-control" id="password" name="password">
 								<i><span id="msg3" style="font-size: 12px;"></span></i>
 							</div>
 							<div class="form-group" style="width: 500px;">
 								<label>Confirm Password</label>
-								<input type="password" class="form-control" name="confirmpassword">
+								<input type="password" class="form-control" id="password" name="confirmpassword">
 								<i><span id="msg4" style="font-size: 12px;"></span></i>
 							</div><br>
 							<div class="form-actions">
@@ -139,11 +151,24 @@
 		if ($result->num_rows > 0) {
 			echo "<script>document.getElementById('msg1').style.color = 'red';
 			document.getElementById('msg1').innerHTML = 'Username is already taken';</script>";
+			echo "<script>document.getElementById('username').value='".$user."';</script>";
+			echo "<script>document.getElementById('email').value='".$email."';</script>";
 		}
 		else{
-			$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
-			if ($conn->query($sql) === TRUE) {
-				echo '<script type="text/javascript"> window.location = "login.php" </script>';
+			$sql2= "SELECT * FROM login WHERE email='".$email."'";
+			$result = $conn->query($sql2);
+			if ($result->num_rows > 0) {
+				echo "<script>document.getElementById('msg2').style.color = 'red';
+				document.getElementById('msg2').innerHTML = 'Email ID is already taken';</script>";
+				echo "<script>document.getElementById('username').value='".$user."';</script>";
+				echo "<script>document.getElementById('email').value='".$email."';</script>";
+			}
+			else{
+
+				$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
+				if ($conn->query($sql) === TRUE) {
+					echo '<script type="text/javascript"> window.location = "login.php" </script>';
+				}
 			}
 		}
 	}
