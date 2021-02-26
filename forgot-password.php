@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	include('include/checklogin.php');
+check_login();
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +16,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script type="text/javascript"></script>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="css/styles.css">
 	<script type="text/javascript">
 		function valid(){
 			var user=document.registration.username.value;
