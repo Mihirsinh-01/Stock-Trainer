@@ -7,9 +7,9 @@
   <div class="dropdown">
   	<a class="dropbtn" style="font-size: 30px; padding-right: 100px;">
   		<i class="fa fa-user" aria-hidden="true">
-	  	<!-- <?php echo $_SESSION['username'];?> -->
-	  	 Mihir</i>
-	</a>
+	  	<?php echo $_SESSION['username'];?>
+	  	 <!-- Mihir --></i>
+  	</a>
   	<div class="dropdown-content">
   		<a href class="btn">My Profile</a>
   		<a href class="btn">Logout</a>

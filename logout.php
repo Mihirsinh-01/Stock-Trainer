@@ -3,6 +3,8 @@
    unset($_SESSION["username"]);
    unset($_SESSION["otp"]);
    unset($_SESSION["email"]);
+   unset($_SESSION["selected_stock_price"]);
+   unset($_SESSION["company"]);
 
 	echo '<script type="text/javascript"> window.location = "login.php" </script>';
 ?>

@@ -119,8 +119,8 @@
 				$ans=$row["password"];
 			}
 			if($pass==$ans){
-				$_SESSION['username']=$username;
-				echo '<script type="text/javascript"> window.location = "registration.php" </script>';
+				$_SESSION['username']=$user;
+				echo '<script type="text/javascript"> window.location = "portfolio.php" </script>';
 			}
 			else{
 				echo "<script>document.getElementById('msg2').style.color = 'red';
