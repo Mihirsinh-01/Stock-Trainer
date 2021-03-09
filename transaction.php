@@ -94,7 +94,7 @@
 
 	// $data=array(array("Tata Steel Limited (TATASTEEL)","r2","r3","r4","r5"),array("r6","r7","r8","r9","r10"),array(1,1,1,1,1),array(1,1,1,1,1),array(1,1,1,1,1),array(1,1,1,1,1),array(1,1,1,1,1),array(1,1,1,1,1));
 
-    $sql1= "SELECT * FROM portfolio WHERE username='".$_SESSION['username']."'";
+    $sql1= "SELECT * FROM transaction WHERE username='".$_SESSION['username']."'";
 
 	$result = $conn->query($sql1);
 	$data=array();
@@ -104,8 +104,15 @@
 			$full=$row["s_name"];
 			$short=$row["s_sname"];
 			array_push($data1, $full." (".$short.")");
-			array_push($data1, "Quantity ".$row["s_quantity"]);
-			array_push($data1, "Investment ₹".$row["s_totalprice"]);
+			array_push($data1, $row["buy"]);
+			array_push($data1, "Transaction Date");
+			array_push($data1, $row["date"]);
+			array_push($data1, "Price Per Share ₹");
+			array_push($data1, ($row["s_totalprice"]/$row["s_quantity"]));
+			array_push($data1, "Quantity");
+			array_push($data1, $row["s_quantity"]);
+			array_push($data1, "Transaction Total");
+			array_push($data1, $row["s_totalprice"]);
 			array_push($data, $data1);
 		}
 	}
@@ -121,32 +128,54 @@
 		$table.='<td>';
 
 		$table.='<a href="?company='.$row[0].'">';
-		$table.='<table id="tb1">';
+		$table.='<table id="tb1" border="1" cellspacing="15">';
 
 		$table.="<tr>";
-		$table.='<td colspan="2">';
-
-		$i=0;
-		foreach($row as $value){
-			if($i!=0){
-				$table.='<td id="even_row_col">';
-				$table.="$value";
-				$table.="</td>";
-
-				// $table.="<td class=\"other_column\">$value</td>";
-			}else{
-				// $table.='<a href="?company='.$value.'">'.$value.'</a>';
-				$table.="$value";
-				$table.="</td>";
-				$table.="</tr>";
-				$table.="<tr>";
-
-				// $table.="<td class=\"first_column\">$value</td>";
-			}
-			$i++;
-		}
-
+		$table.='<td colspan="3">';
+		$table.=$row[0];
+		$table.="</td>";
+		$table.='<td style="text-align: right;">';
+		if($row[1]==0)$table.="Sell";
+		else $table.="Buy";
+		$table.="</td>";
 		$table.="</tr>";
+
+		for($i=2;$i<count($row);$i++){
+			if(($i-2)%4==0)$table.="<tr>";
+			if($i%2!=0)$table.="<td id='even_row_col' style='text-align: right;'>";
+			else $table.="<td id='even_row_col'>";
+			if(($i-1)%4==0)$table.="₹";
+			$table.=$row[$i];
+			$table.="</td>";
+			if(($i-1)%4==0)$table.="</tr>";
+		}
+		// $i=0;
+		// foreach($row as $value){
+		// 	if($i%2==0){
+		// 		$table.="<tr>";
+		// 		$table.='<td>';
+		// 		$table.="$value";
+		// 		$table.="</td>";
+
+		// 		// $table.="<td class=\"other_column\">$value</td>";
+		// 	}else{
+		// 		// $table.='<a href="?company='.$value.'">'.$value.'</a>';
+		// 		if($i==1){
+		// 			$table.='<td style="text-align: right;">';
+		// 			if($value==0)$table.="Sell";
+		// 			else $table.="Buy";
+		// 		}
+		// 		else{
+		// 			$table.='<td id="even_row_col">';
+		// 			$table.="$value";
+		// 		}
+		// 		$table.="</td>";
+		// 		$table.="</tr>";
+
+		// 		// $table.="<td class=\"first_column\">$value</td>";
+		// 	}
+		// 	$i++;
+		// }
 		$table.="</table>";
 		$table.="</a>";
 		$table.="</td>";

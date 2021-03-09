@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light bg-dark navbar-expand">
-  <div class="container-fluid" style=" margin-left: 10%;">
+  <div class="container-fluid" style=" margin-left: 6%;">
     <a class="navbar-brand" href="#">	    	
       <font color="white" style="font-size: 30px; font-family: 'Robosto'">Stock Trainer</font>
     </a>

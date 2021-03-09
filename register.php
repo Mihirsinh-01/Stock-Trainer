@@ -14,11 +14,12 @@
 	<link rel="stylesheet" href="css/styles.css">
 	<script type="text/javascript">
 		function valid(){
-			var pass=document.registration.password.value;
+			var pass=document.getElementById('password').value;
 			var confpass=document.registration.confirmpassword.value;
 			var user=document.registration.username.value;
 			var email=document.registration.email.value
 			var flag=1;
+			// alert(pass);
 			if(user.length==0){
 				document.getElementById('msg1').style.color = 'red';
 				document.getElementById('msg1').innerHTML = 'Empty Username Not Allowed';
@@ -175,3 +176,6 @@
 
 	
 ?>
+
+
+ 

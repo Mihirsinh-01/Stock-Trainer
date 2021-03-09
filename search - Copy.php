@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@
 		  position:relative;
 		}
 		#table-scroll {
-		  height:520px;
+		  height:700px;
 		  overflow:auto;  
 		  /*margin-top:20px;*/
 		}
@@ -47,17 +48,12 @@
 		  border:0px solid red;
 		}
 		td{
-			height: 60px;
-		}
-		td:hover{
-			background-color: #f0f0f5;
+			height: 50px;
 		}
 		
     </style>
-    
 </head>
-	
-</form>
+
 </html>
 
 
@@ -65,16 +61,14 @@
 	include('include/navigation.php');
 	include("include/sidebar.php");
 	echo '<div><center><form method="POST" style="padding-top: 50px;">
-			<input type="text" name="substring" style="line-height: 30px; margin-right: 30px;" placeholder="Enter Name to be Searched" size="100">
-			<input type="submit" style="background-color: #8080ff; color: white;" class="btn" name="search"/>
-		</form></center></div><br><br>
-		<span id="im1" style="margin-left:300px;"><img src="images/search.svg"></span>
-		';
+			<input type="text" name="substring" placeholder="Enter Name to be Searched" size="100">
+			<input type="submit" name="search"/>
+		</form></center></div>';
 
 	
 	require 'excel.php';
 	function dynamic_searching($data){
-		// print_r($data);
+		print_r($data);
 		global $company_data;
 		global $display;
 		$arr=array();
@@ -88,12 +82,7 @@
 	}
 
 	function fetch_data($company){
-		$str=strrchr($company,"(");
-		$short_company=substr($str,1,strlen($str)-2);
-
-		$f_company=substr($company,0,strlen($company)-strlen($short_company)-3);
-		$_SESSION["f_company"]=$f_company;
-		$_SESSION['company']=$short_company;
+		$_SESSION['company']=$company;
 		echo '<script type="text/javascript"> window.location = "search_company_data.php" </script>';	
 	}
 
@@ -119,24 +108,25 @@
 		    echo SimpleXLSX::parseError();
 		}
 		$ar=dynamic_searching($str);
-		$table='<div id="table-wrapper" style="margin-left: 610px;">';
+		$table='<div id="table-wrapper" style="margin-left: 640px;">';
 		$table.='<div id="table-scroll">';
 		$table.='<table id="tb" class="table" style="width:750px;">';
 		// $table='<table class="scrolldown">';
 		foreach($ar as $x){
-
+			$str=strrchr($x,"(");
+			$short_company=substr($str,1,strlen($str)-2);
+			
+			$f_company=substr($x,0,strlen($x)-strlen($short_company)-3);
+			$_SESSION["f_company"]=$f_company;
+			
 			$table.='<tr>';
 			$table.='<td>';
-			$table.='<a href="?company='.$x.'">';
+			$table.='<a href="?company='.$short_company.'">';
 			$table.=$x;
 			$table.='</a></td></tr>';
 		}
 		$table.='</table>';
 		$table.="</div></div>";
-		echo '<script type="text/javascript">
-    	document.getElementById("im1").style.display = "none";
-    </script>';
-
 		echo $table;
 	}
 	

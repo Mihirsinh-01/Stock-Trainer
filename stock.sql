@@ -24,16 +24,17 @@ CREATE TABLE `transaction` (
   `s_sname` varchar(255) NOT NULL,
   `s_name` varchar(255) NOT NULL,
   `date` timestamp NULL DEFAULT current_timestamp(),
+  `s_quantity` int(255) NOT NULL,
+  `s_totalprice` double(255,2) NOT NULL,
   `buy` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `watchlist` (
+  `username` varchar(255) NOT NULL,
+  `s_sname` varchar(255) NOT NULL,
+  `s_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 ALTER TABLE `login`
-  ADD PRIMARY KEY (`username`);
-
-ALTER TABLE `portfolio`
-  ADD PRIMARY KEY (`username`);
-
-ALTER TABLE `transaction`
   ADD PRIMARY KEY (`username`);

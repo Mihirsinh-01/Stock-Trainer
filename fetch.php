@@ -1,19 +1,50 @@
+<style> 
+    /* Scroll bar chu karva mate... */
+	::-webkit-scrollbar {
+	    width: 0px;  /* Remove scrollbar space */
+	    background: transparent;  /* Optional: just make scrollbar invisible */
+	}
 
-<!DOCTYPE html>
-<html>
-<body>
-	<center>
-		<form method="POST">
-			<input type="text" name="substring" placeholder="Enter the keys of the array comma seperated">
-			<input type="submit" name="search"/>
-			<!-- <img id="wait" src="1.jpeg"/> -->
-		</form>
-	</center>
-</body>
-</html>
+	#table-wrapper {
+	  position:relative;
+	}
+	#table-scroll {
+	  height:520px;
+	  overflow:auto;  
+	  /*margin-top:20px;*/
+	}
+	#table-wrapper table {
+		/*width: 100px;*/
+
+	}
+	#table-wrapper table * {
+	  /*background:green;*/
+	  color:black;
+	}
+	#table-wrapper table thead th .text {
+	  position:relative;   
+	  top:-20px;
+	  z-index:2;
+	  height:20px;
+	  width:100px;
+	  border:0px solid red;
+	}
+	td{
+		height: 60px;
+	}
+	tr:hover{
+		background-color: #f0f0f5;
+	}
+	
+</style>
 <?php
 	
 	require 'excel.php';
+	echo '<div><center><form method="POST" style="padding-top: 50px;">
+			<input type="text" name="substring" style="line-height: 30px; margin-right: 30px;" placeholder="Enter Name to be Searched" size="100">
+			<input type="submit" style="background-color: #8080ff; color: white;" class="btn" name="search"/>
+		</form></center></div><br><br>
+		';
 	function dynamic_searching($data){
 		print_r($data);
 		global $company_data;
@@ -29,7 +60,12 @@
 	}
 
 	function fetch_data($company){
-		$_SESSION['company']=$company;
+		$str=strrchr($company,"(");
+		$short_company=substr($str,1,strlen($str)-2);
+
+		$f_company=substr($company,0,strlen($company)-strlen($short_company)-3);
+		$_SESSION["f_company"]=$f_company;
+		$_SESSION['company']=$short_company;
 		echo '<script type="text/javascript"> window.location = "search_company_data.php" </script>';	
 	}
 	if (isset($_GET['company'])){
@@ -54,16 +90,16 @@
 		    echo SimpleXLSX::parseError();
 		}
 		$ar=dynamic_searching($str);
-		$table='<div id="table-wrapper" style="margin-left: 400px;">';
+		$table='<div id="table-wrapper" style="margin-left: 610px;">';
 		$table.='<div id="table-scroll">';
-		$table.='<table id="tb" border="1" class="scrolldown">';
+		$table.='<table id="tb" class="table" style="width:750px;">';
 		// $table='<table class="scrolldown">';
 		foreach($ar as $x){
-			$str=strrchr($x,"(");
-			$short_company=substr($str,1,strlen($str)-2);
+			
+
 			$table.='<tr>';
 			$table.='<td>';
-			$table.='<a href="?company='.$short_company.'">';
+			$table.='<a href="?company='.$x.'">';
 			$table.=$x;
 			$table.='</a></td></tr>';
 		}
