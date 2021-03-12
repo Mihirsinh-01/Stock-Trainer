@@ -40,13 +40,12 @@
 <?php
 	
 	require 'excel.php';
-	echo '<div><center><form method="POST" style="padding-top: 50px;">
+	echo '<div><center><form method="POST" style="padding-top: 30px;">
 			<input type="text" name="substring" style="line-height: 30px; margin-right: 30px;" placeholder="Enter Name to be Searched" size="100">
 			<input type="submit" style="background-color: #8080ff; color: white;" class="btn" name="search"/>
-		</form></center></div><br><br>
+		</form></center></div>
 		';
 	function dynamic_searching($data){
-		print_r($data);
 		global $company_data;
 		global $display;
 		$arr=array();

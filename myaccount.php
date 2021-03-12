@@ -1,7 +1,5 @@
 <?php
-	session_start();
-	include('include/navigation.php');
-	
+	session_start();	
 ?>
 
 <!DOCTYPE html>
@@ -19,18 +17,26 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
 	<link rel="stylesheet" href="css/dropdown.css">
+	<style type="text/css">
+		.grph{
+			position: absolute;
+			left: 500px;
+		}
+	</style>
 </head>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <body>
-	<div id="piechart"></div>
+	
 </body>
 </html>
 
 
 <?php
+	
+	include('include/navigation.php');
 	include('include/sidebar.php');
 	include("include/config.php");
-
+	echo '<div id="piechart" class="grph"></div>';
 	$sql1= "SELECT balance FROM login WHERE username='".$_SESSION['username']."'";
 
 	$result = $conn->query($sql1);
@@ -52,17 +58,43 @@
 	// print_r($s_name);
 	// print_r($s_totalprice);
 	// print_r($balance);
+	$Initial=500000;
+	$total=array_sum($s_totalprice);
+	$total+=$balance;
 
+	$growth=($total-$Initial)/$Initial*100;
 	$string="";
 	// $savTotal=$balance;
 	for($i=0;$i<count($s_name);$i++){
 		// $savTotal+=$s_totalprice[$i];
 		$string.="['".$s_name[$i]."',".$s_totalprice[$i]."],";
 	}
-	$string.="['cash',".$balance."]";
+	$string.="['Cash',".$balance."]";
 
-	// echo $string;
-	echo "
+	$table="<div><table>";
+	$table.="<tr>";
+	$table.="<td>Initial Position</td>";
+	$table.="<td>$Initial</td>";
+	$table.="</tr>";
+
+	$table.="<tr>";
+	$table.="<td>Current Position</td>";
+	$table.="<td>$total</td>";
+	$table.="</tr>";
+
+	$table.="<tr>";
+	$table.="<td>Groth Rate</td>";
+	$table.="<td>$growth%</td>";
+	$table.="</tr>";
+
+	// $table.="<tr>";
+	// $table.="<td>Groth Rate</td>";
+	// $table.="<td>$growth</td>";
+	// $table.="</tr>";
+
+	$table.="</table></div>";
+	echo $table."<br>";
+	echo "<div>
 		<script>
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
@@ -70,15 +102,13 @@
 		function drawChart() {
 		  
 		  var data = google.visualization.arrayToDataTable([
-		  ['Task', 'Hours per Day'],".$string."]);
-		  var options = {'title':'My Average Day', 'width':550, 'height':400};
+		  ['Company', 'Share Price'],".$string."]);
+		  var options = {'width':1000, 'height':600};
 
 		  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 		  
 		  chart.draw(data, options);
 		}
-		</script>
-
+		</script></div>
 	";
-
 ?>

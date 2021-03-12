@@ -12,70 +12,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
-	<script type="text/javascript">
-		function valid(){
-			var pass=document.getElementById('password').value;
-			var confpass=document.registration.confirmpassword.value;
-			var user=document.registration.username.value;
-			var email=document.registration.email.value
-			var flag=1;
-			// alert(pass);
-			if(user.length==0){
-				document.getElementById('msg1').style.color = 'red';
-				document.getElementById('msg1').innerHTML = 'Empty Username Not Allowed';
-				if(flag) document.registration.username.focus();
-				flag=0;
-			}
-			else{
-				for (var i = 0; i<user.length; i++) {
-					if(Number.isInteger(user.charAt(i)) || (/[a-zA-Z]/).test(user.charAt(i)) || user.charAt(i)=='_'){
-						var x=0;
-					}
-					else{
-						document.getElementById('msg1').style.color = 'red';
-						document.getElementById('msg1').innerHTML = 'Only Alphabets, Digits and "_" are Allowed';
-						if(flag) document.registration.username.focus();
-						flag=0;
-					}
-				}
-				if(flag) document.getElementById('msg1').innerHTML = '';
-			}
-			if(email.length==0){
-				document.getElementById('msg2').style.color = 'red';
-				document.getElementById('msg2').innerHTML = 'Empty Email Not Allowed';
-				if(flag) document.registration.email.focus();
-				flag=0;
-			}
-			else document.getElementById('msg2').innerHTML = '';
-			if(pass.length==0){
-				document.getElementById('msg3').style.color = 'red';
-				document.getElementById('msg3').innerHTML = 'Empty Password Not Allowed';
-				if(flag) document.registration.password.focus();
-				flag=0;
-			}
-			else document.getElementById('msg3').innerHTML = '';
-			if(confpass.length==0){
-				document.getElementById('msg4').style.color = 'red';
-				document.getElementById('msg4').innerHTML = 'Enter Confirmation Password';
-				if(flag) document.registration.confirmpassword.focus();
-				flag=0;
-			}
-			else document.getElementById('msg4').innerHTML = '';
-
-			if(pass!=confpass){
-				if(flag) document.registration.confirmpassword.focus();
-				document.getElementById('msg4').style.color = 'red';
-				document.getElementById('msg4').innerHTML = 'Confirm Password Not Matching';
-				flag=0;
-			}
-			else document.getElementById('msg4').innerHTML = '';
-			if(flag==0) return false;
-			return true;
-		}
-	</script>
 	<style type="text/css">
 		input:hover{
 			border-color: #00ccff;
+		}
+		span{
+			color: red;
 		}
 	</style>
 </head>
@@ -92,7 +34,7 @@
 			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/register.svg" width="85%"></div>
 			<div style="width: 50%; padding-top: 5%; padding-left: 10%; height: 70%; ">
 				<!-- <center> -->
-					<form method="post" name="registration" onSubmit="return valid();">
+					<form method="post" name="registration">
 						<fieldset>
 							<legend>
 								<h1><font>Create New Account</font></h1>
@@ -117,7 +59,7 @@
 							</div>
 							<div class="form-group" style="width: 500px;">
 								<label>Confirm Password</label>
-								<input type="password" class="form-control" id="password" name="confirmpassword">
+								<input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
 								<i><span id="msg4" style="font-size: 12px;"></span></i>
 							</div><br>
 							<div class="form-actions">
@@ -144,37 +86,106 @@
 		$user=$_POST['username'];
 		$email=$_POST['email'];
 		$pass=$_POST['password'];
+		$confirmPassword=$_POST['confirmPassword'];
 		$balance=500000.00;
+		$submit=false;
 
+		echo "
+			<script>document.getElementById('username').value='".$user."';
+					document.getElementById('email').value='".$email."';
+					document.getElementById('password').value='".$pass."';
+			</script>
+		";
+		// echo "hoh";
 
-		$sql1= "SELECT * FROM login WHERE username='".$user."'";
-		$result = $conn->query($sql1);
-		if ($result->num_rows > 0) {
-			echo "<script>document.getElementById('msg1').style.color = 'red';
-			document.getElementById('msg1').innerHTML = 'Username is already taken';</script>";
-			echo "<script>document.getElementById('username').value='".$user."';</script>";
-			echo "<script>document.getElementById('email').value='".$email."';</script>";
+		if(empty($user)){
+			echo "<script>document.getElementById('msg1').innerHTML='Empty Username Not Allowed';</script>";
+			$submit=true;
 		}
 		else{
-			$sql2= "SELECT * FROM login WHERE email='".$email."'";
-			$result = $conn->query($sql2);
+			$flag=false;
+			for($i=0;$i<strlen($user);$i++){
+				$pattern = "/[a-z0-9_]/i";
+				if(preg_match($pattern, $user[$i])==0){
+					$flag=true;
+					echo "jnoj";
+					break;
+				}
+			}
+			if(!$flag){
+				echo "<script>document.getElementById('msg1').value='';</script>";
+			}
+			else{
+				echo "<script>document.getElementById('msg1').innerHTML='Only Alphabets, Digits and \'_\' are Allowed';</script>";
+				$submit=true;
+			}
+		}
+		
+		if(empty($email)){
+			echo "<script>document.getElementById('msg2').innerHTML='Empty Email Not Allowed';</script>";
+			$submit=true;
+		}
+		else if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+			echo "<script>document.getElementById('msg2').innerHTML = 'Enter the valid email address';</script>";
+			$submit=true;
+		}
+		else{
+			echo "<script>document.getElementById('msg2').innerHTML = '';</script>";
+		}
+
+		if(empty($pass)){
+			echo "<script>document.getElementById('msg3').innerHTML='Empty Password Not Allowed';</script>";	
+			$submit=true;
+		}
+		else if(strlen($pass)<8){
+			echo "<script>document.getElementById('msg3').innerHTML='Password length should at least 8';</script>";
+			$submit=true;
+		}
+		else{
+			echo "<script>document.getElementById('msg3').innerHTML='';</script>";	
+		}
+
+		if(strcmp($confirmPassword,$pass)!=0){
+
+			echo "<script>document.getElementById('msg4').innerHTML='Confirm password is not matching';</script>";
+			$submit=true;
+		}
+		else{
+			echo "<script>document.getElementById('msg4').innerHTML='';</script>";
+		}
+
+		if(!$submit){
+
+			$pass=password_hash($pass,  PASSWORD_BCRYPT);
+			
+			$sql1= "SELECT * FROM login WHERE username='".$user."'";
+			$result = $conn->query($sql1);
 			if ($result->num_rows > 0) {
-				echo "<script>document.getElementById('msg2').style.color = 'red';
-				document.getElementById('msg2').innerHTML = 'Email ID is already taken';</script>";
+				echo "<script>document.getElementById('msg1').style.color = 'red';
+				document.getElementById('msg1').innerHTML = 'Username is already taken';</script>";
 				echo "<script>document.getElementById('username').value='".$user."';</script>";
 				echo "<script>document.getElementById('email').value='".$email."';</script>";
 			}
 			else{
+				$sql2= "SELECT * FROM login WHERE email='".$email."'";
+				$result = $conn->query($sql2);
+				if ($result->num_rows > 0) {
+					echo "<script>document.getElementById('msg2').style.color = 'red';
+					document.getElementById('msg2').innerHTML = 'Email ID is already taken';</script>";
+					echo "<script>document.getElementById('username').value='".$user."';</script>";
+					echo "<script>document.getElementById('email').value='".$email."';</script>";
+				}
+				else{
 
-				$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
-				if ($conn->query($sql) === TRUE) {
-					echo '<script type="text/javascript"> window.location = "login.php" </script>';
+					$sql = "INSERT INTO login VALUES ('".$user."','".$email."','".$pass."',".$balance.")";
+					if ($conn->query($sql) === TRUE) {
+						echo '<script type="text/javascript"> window.location = "login.php" </script>';
+					}
 				}
 			}
 		}
 	}
 
-	
 ?>
 
 

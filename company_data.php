@@ -5,21 +5,81 @@
 	<style type="text/css">
 		.noob{
 			float: left;
-			/*background-color: pink;*/
+			font-size: 25px;
+		}
+		.noob1{
+			position: absolute;
+			left: 650px;
+			top: 750px;
+			width: 700px;
+		}
+		.noob2{
+			font-size: 30px;
+			font-weight: bold;
+			width: 850px;
+			height: 100px;
+			margin-left: 600px;
+		}
+		.buy1{
+			/*background-color: red;*/
+			margin-left: 500px;
+			margin-top:80px;
+			font-size: 30px;
 		}
 		table{
 			border-collapse: collapse;
 		}
 		.title{
 		    border-bottom: 1px solid;
+		    height: 60px;
 		}
 		.second_column{
 			padding-left: 30px;
 		}
 
+		.bt{
+			padding-top: 1%;
+			padding-bottom: 1%;
+			margin-right: 3%;
+			font-size: 24px;
+			text-align: center;
+			cursor: pointer;
+			outline: none;
+			color: #fff;
+			background-color: #6666ff;
+			border: none;
+			border-radius: 15px;
+			box-shadow: 0 9px #999;
+			width: 200px;
+		}
+		.bt:hover {
+			background-color: #8080ff;
+			outline: none;
+		}
+
+		.bt:active {
+		  background-color: #6600ff;
+		  box-shadow: 0 5px #666;
+		  transform: translateY(4px);
+		  outline: none;
+		}
+
+
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<script type="text/javascript">
+		function check(y){
+			var x = document.getElementById("stock_no").value;
+			// document.writeln(typeof(y));
+			if(x>y)	{
+				alert("Not Enough Stocks !!!!!!");
+				return false;
+			}
+			else{
+				return confir();
+			}
+		}
 		
 		function stock(){
 			var x = document.getElementById("stock_no").value;
@@ -29,6 +89,10 @@
 			// else document.getElementById("span").innerHTML=(typeof z);
 		}
 		function confirmation(x){
+			if(document.getElementById("stock_no").value==0){
+				alert("Stocks can not be 0");
+				return false;
+			}
 			return confirm(x);
 		}
 		function confir(){
@@ -44,25 +108,28 @@
 <?php
 
 	function initial_main(){
-		echo $_SESSION['company'];
 		echo "<br>";
-		echo "<script>document.getElementById('wait').style.visibility='visible';</script>";
-		// echo "radhe<br>";
-		// global $price;
 		list($price,$ratio,$s)=company($_SESSION['company']);
-		// echo "shyam";
-		echo "<script>document.getElementById('wait').style.visibility='hidden';</script>";
 		$price = str_replace(',', '', $price);
 		$_SESSION['selected_stock_price']=strip_tags(trim($price));
-		echo "$price<br>";
-		echo "$ratio<br>";
+		echo "<div class='noob2'><marquee style='font-size:40px;'>";
+		echo $_SESSION['f_company']." (".$_SESSION['company'].")";
+		echo "</marquee>";
+		if($ratio[0]=='-'){
+			echo "<div style='color:red'>$price &nbsp&nbsp&nbsp";
+			echo "$ratio</div></div><br><br>";
+		}
+		else{
+			echo "<div style='color:green'>$price&nbsp&nbsp&nbsp";
+			echo "$ratio</div></div><br><br>";
+		}
 		list($col,$ans)=tab($s);
 		print_table($col,$ans);
 
-		echo "<br><form method=\"POST\">
-			<input type=\"submit\" name=\"buy\" value=\"Buy\"/>
-			<input type=\"submit\" name=\"sell\" value=\"Sell\"/>
-			<input type=\"submit\" name=\"watch\" value=\"Watch\"/>
+		echo "<br><div class=\"noob1\"><form method=\"POST\">
+			<input type=\"submit\" name=\"buy\" value=\"Buy\" class=\"bt\"/>
+			<input type=\"submit\" name=\"sell\" value=\"Sell\" class=\"bt\"/>
+			<input type=\"submit\" name=\"watch\" value=\"Watch\" class=\"bt\"/>
 		</form>";
 	}
 
@@ -95,12 +162,10 @@
 	}
 	function print_table($col,$ans){
 		$table="<div>";
-
-			$table.='<div class="noob">';
-				$table.='<table >';
+			$table.='<div class="noob" style="margin-left:250px;">';
+				$table.='<table>';
 				for($i=0;$i<7;$i++){
-					if($i==6)$table.="<tr>";
-					else $table.='<tr class="title">';
+					$table.='<tr class="title">';
 					$table.="<td>".$col[$i]."</td>";
 					$table.="<td class='second_column'>".$ans[$i]."</td>";
 					$table.="</tr>";
@@ -109,23 +174,20 @@
 			$table.="</div>";
 
 			$table.='<div class="noob" style="margin-left:30px;">';
-				$table.='<table >';
+				$table.='<table>';
 				for($i=7;$i<14;$i++){
-					if($i==13)$table.="<tr>";
-					else $table.='<tr class="title">';
+					$table.='<tr class="title">';
 					$table.="<td>".$col[$i]."</td>";
 					$table.="<td class='second_column'>".$ans[$i]."</td>";
 					$table.="</tr>";
 				}
 				$table.="</table>";
 			$table.='</div>';
-
 		$table.='</div>';
 		echo $table;
 	}
 
 	function tab($s){
-		// echo "<br>$s<br>";
 
 		$cols=array("Previous close","Open","Bid","Ask","Day's range","52-week range","Volume","Avg. volume","Market cap","Beta (5Y monthly)","PE ratio (TTM)","EPS (TTM)","Earnings date","Forward dividend & yield","Ex-dividend date","1y target est");
 
@@ -159,20 +221,30 @@
 
 		$comp=$_SESSION['company'];
 		$price=$_SESSION['selected_stock_price'];
-		// echo "$comp<br>$price";
-		// echo '<div ng-app="myApp" ng-controller="myctrl">';
-		// $s="stock('".$price."')";
-		// echo $s;
-		echo '<form method="POST">
-			<span>Available balance is '.$balance.'</span><br>
-			<LABEL>Enter numbre of stocks </LABEL>
-			<input type="number" id="stock_no" name="stock_no" onkeyup="stock()"/><br><br>
-			<input type="submit" name="confirm_buy" value="Buy" onclick="return confirmation(\'Confirm share purchase !\')"><br>
-			<span id="span"></span>
-		</form>';
+		echo '<div class="buy1">
+				<table style="width:1200px;"><tr>
+				<th><span>Available balance is '.$balance.'</span></th>
+				<th><span>Price Per Share is '.$price.'</span></th></tr>
+				<tr><td colspan="2" style="padding-left:150px;">
+				<br><br>
+				<form method="POST"><LABEL>Enter number of stocks: </LABEL>
+				<input type="number" id="stock_no" name="stock_no" onkeyup="stock()" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><br><br>
+				<div style="margin-left:210px;">Price: &nbsp<span id="span">0.00</span></div><br><br>
+				<input type="submit" style="margin-left:280px;" name="confirm_buy" class="bt" value="Buy" onclick="return confirmation(\'Confirm share purchase !\')">
+				</form></td></tr></table>
+
+			</div>';
+		// echo '<div class="buy1"><form method="POST">
+		// 	<span>Available balance is '.$balance.'</span><br>
+		// 	<span>Price Per Share is '.$price.'</span><br>
+		// 	<LABEL>Enter number of stocks </LABEL>
+		// 	<input type="number" id="stock_no" name="stock_no" onkeyup="stock()"/><br><br>
+		// 	<input type="submit" name="confirm_buy" value="Buy" onclick="return confirmation(\'Confirm share purchase !\')"><br>
+		// 	Price <span id="span"></span>
+		// </form></div>';
 	}
 	else if(isset($_POST['confirm_buy'])){
-		echo "jk";
+
 		$sql1= "SELECT balance FROM login WHERE username='".$_SESSION['username']."'";
 
 		$result = $conn->query($sql1);
@@ -223,6 +295,7 @@
 			
 			
 		}
+	
 		initial_main();
 	}
 	else if(isset($_POST['sell'])){
@@ -237,13 +310,28 @@
 		$comp=$_SESSION['company'];
 		$price=$_SESSION['selected_stock_price'];
 
-		echo '<form method="POST">
-			<span>Available stocks '.$s_quantity.'</span><br>
-			<LABEL>Enter numbre of stocks </LABEL>
-			<input type="number" id="stock_no" name="stock_no"/><br><br>
-			<input type="submit" name="confirm_sell" value="Sell" onclick="return confir()"><br>
+		// echo '<form method="POST">
+		// 	<span>Available stocks '.$s_quantity.'</span><br>
+		// 	<LABEL>Enter numbre of stocks </LABEL>
+		// 	<input type="number" id="stock_no" name="stock_no"/><br><br>
+		// 	<input type="submit" name="confirm_sell" value="Sell" onclick="return confir()"><br>
 			
-		</form>';
+		// </form>';
+
+		echo '
+				<div class="buy1">
+				<table style="width:1200px;"><tr>
+				<th><span>Available Shares '.$s_quantity.'</span></th>
+				<th><span>Price Per Share is '.$price.'</span></th></tr>
+				<tr><td colspan="2" style="padding-left:150px;">
+				<br><br>
+				<form method="POST" onsubmit="return check('.$s_quantity.');"><LABEL>Enter number of stocks: </LABEL>
+				<input type="number" id="stock_no" name="stock_no" onkeyup="stock()" min="1" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><br><br>
+				<div style="margin-left:210px;">Price: &nbsp<span id="span">0.00</span></div><br><br>
+				<input type="submit" style="margin-left:280px;" name="confirm_sell" class="bt" value="Sell" >
+				</form></td></tr></table>
+
+			</div>';
 	}
 	else if(isset($_POST['confirm_sell'])){
 		$sql1= "SELECT * FROM portfolio WHERE username='".$_SESSION['username']."' and s_sname='".$_SESSION['company']."'";
@@ -267,33 +355,25 @@
 		$number=$_POST['stock_no'];
 		$x=$price*$number;
 		$balance+=$x;
-		
-		// echo "$x<br>$balance";
-		if($number<=$s_quantity){
-		
-			$buy=0;
-			$sql = "UPDATE login SET balance='".$balance."' WHERE username='".$_SESSION['username']."'";
+	
+		$buy=0;
+		$sql = "UPDATE login SET balance='".$balance."' WHERE username='".$_SESSION['username']."'";
 
-			if (mysqli_query($conn, $sql)) {
-				$sql1 = "INSERT INTO transaction (username,s_sname,s_name,s_quantity,s_totalprice,buy) VALUES ('".$_SESSION['username']."','".$_SESSION['company']."','".$_SESSION['f_company']."',".$number.",".$x.",".$buy.")";
-				if (mysqli_query($conn, $sql1)) {}
-				
-				if($s_quantity-$number==0){
-					$sql = "DELETE FROM portfolio WHERE username='".$_SESSION['username']."' and s_sname='".$_SESSION['company']."'";
-
-					if (mysqli_query($conn, $sql)) {}
-				}
-				else{
-					$s_totalprice=($s_quantity-$number)*$s_totalprice/$s_quantity;
-					$sql3 = "UPDATE portfolio SET s_quantity=".($s_quantity-$number).", s_totalprice=".$s_totalprice." WHERE username='".$_SESSION['username']."' and s_sname='".$_SESSION['company']."'";
-					if(mysqli_query($conn,$sql3)){}
-				}
+		if (mysqli_query($conn, $sql)) {
+			$sql1 = "INSERT INTO transaction (username,s_sname,s_name,s_quantity,s_totalprice,buy) VALUES ('".$_SESSION['username']."','".$_SESSION['company']."','".$_SESSION['f_company']."',".$number.",".$x.",".$buy.")";
+			if (mysqli_query($conn, $sql1)) {}
 			
+			if($s_quantity-$number==0){
+				$sql = "DELETE FROM portfolio WHERE username='".$_SESSION['username']."' and s_sname='".$_SESSION['company']."'";
+
+				if (mysqli_query($conn, $sql)) {}
 			}
-		}
-		else{
-			echo '<script>alert("Sorry! You don\'t have enough stocks to sell");</script>';
-			
+			else{
+				$s_totalprice=($s_quantity-$number)*$s_totalprice/$s_quantity;
+				$sql3 = "UPDATE portfolio SET s_quantity=".($s_quantity-$number).", s_totalprice=".$s_totalprice." WHERE username='".$_SESSION['username']."' and s_sname='".$_SESSION['company']."'";
+				if(mysqli_query($conn,$sql3)){}
+			}
+		
 		}
 		initial_main();
 	}
@@ -303,7 +383,13 @@
 		$result = $conn->query($sql1);
 		if ($result->num_rows == 0){
 			$sql1 = "INSERT INTO watchlist VALUES ('".$_SESSION['username']."','".$_SESSION['company']."','".$_SESSION['f_company']."')";
-				if (mysqli_query($conn, $sql1)) {}
+				if (mysqli_query($conn, $sql1)) {
+					echo "<script>alert('Added to Watchlist :-) ')</script>";
+				}
+		}
+		else{
+			echo "already";
+			echo "<script>alert('Already added to Watchlist :-( ')</script>";
 		}
 		initial_main();
 	}

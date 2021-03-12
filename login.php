@@ -118,7 +118,7 @@
 			while($row = $result->fetch_assoc()) {
 				$ans=$row["password"];
 			}
-			if($pass==$ans){
+			if(password_verify($pass, $ans)){
 				$_SESSION['username']=$user;
 				echo '<script type="text/javascript"> window.location = "portfolio.php" </script>';
 			}
@@ -137,3 +137,5 @@
 
 	
 ?>
+
+

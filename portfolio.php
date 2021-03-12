@@ -31,18 +31,18 @@
 		  position:relative;
 		}
 		#table-scroll {
-		  height:200px;
+		  height:800px;
 		  overflow:auto;  
 		  /*margin-top:20px;*/
 		}
-		/*#table-wrapper table {*/
-			/*width: 100px;*/
+		table th {
+		    position: -webkit-sticky; 
+		    position: sticky;
+		    top: 0;
+		    z-index: 1;
+		    background: #fff;
+		}
 
-		/*}*/
-		/*#table-wrapper table * {*/
-		  /*background:green;*/
-		  /*color:black;*/
-		/*}*/
 		#table-wrapper table thead th .text {
 		  position:relative;   
 		  top:-20px;
@@ -53,26 +53,26 @@
 		}
 
 		#tb1{
-			/*height: 10px;*/
-			/*width: 500px;*/
-			background-color: yellow;
-			font-size: 30px;
+			background-color: white;
+			font-size: 25px;
 			border-collapse: collapse;
 			color: black;
 		}
 		#tb1:hover{
-			background-color: red;
-			/*border: 0px solid #1E88E5;*/
+			background-color: #b3b3cc;
 			color: white;
 		}
 
 		#even_row_col{
 			width:500px;
 		}
+		td{
+			color: black;
+		}
 	</style>
 </head>
-<body>
-
+<body>	
+	<!-- <img src='images/portfolio.svg' style="align-items: center;"> -->
 </body>
 </html>
 
@@ -84,7 +84,7 @@
 	include("include/sidebar.php");
 	include("include/config.php");
 
-		
+	
 	// include('sidebar.php');
 	// echo '<div style="background-color:green;">dfsfsdf</div>';
 	
@@ -96,66 +96,33 @@
 
     $sql1= "SELECT * FROM portfolio WHERE username='".$_SESSION['username']."'";
 
-	$result = $conn->query($sql1);
+    echo '<div><div id="table-scroll"><table class="table table-hover" style="width:1200px; margin-top:30px; margin-left:100px;">
+    <thead>	
+   		<tr>
+   			<th class="center">#</th>
+   			<th>Company Name</th>
+   			<th>Quantity</th>
+   			<th>Transaction Total</th>
+   		</tr>
+    </thead>
+    <tbody>
+    ';
+    $result = $conn->query($sql1);
 	$data=array();
 	if ($result->num_rows > 0) {
+		$cnt=1;
 		while($row = $result->fetch_assoc()) {
-			$data1=array();
-			$full=$row["s_name"];
-			$short=$row["s_sname"];
-			array_push($data1, $full." (".$short.")");
-			array_push($data1, "Quantity ".$row["s_quantity"]);
-			array_push($data1, "Investment ₹".$row["s_totalprice"]);
-			array_push($data, $data1);
+			echo '<tr><td class="center">'.$cnt.'. </td>';
+			$full=$row["s_name"]." (".$row["s_sname"].")";
+			echo '<td>'.$full.'</td>';
+			echo '<td>'.$row["s_quantity"].'</td>';
+			echo '<td>₹ '.$row["s_totalprice"].'</td>';
+			echo '</tr>';
+			$cnt++;
+
 		}
+		echo '</tbody></table></div></div>';
 	}
-
-	// $table='<div class="container">';
-	// echo '<div style="background-color:green;">';
-	$table='<div id="table-wrapper" style="margin-left: 400px;">';
-	$table.='<div id="table-scroll">';
-	$table.='<table id="tb" border="1" class="scrolldown">';
-	// print_r($data);
-  	foreach($data as $row){
-		$table.="<tr>";
-		$table.='<td>';
-
-		$table.='<a href="?company='.$row[0].'">';
-		$table.='<table id="tb1">';
-
-		$table.="<tr>";
-		$table.='<td colspan="2">';
-
-		$i=0;
-		foreach($row as $value){
-			if($i!=0){
-				$table.='<td id="even_row_col">';
-				$table.="$value";
-				$table.="</td>";
-
-				// $table.="<td class=\"other_column\">$value</td>";
-			}else{
-				// $table.='<a href="?company='.$value.'">'.$value.'</a>';
-				$table.="$value";
-				$table.="</td>";
-				$table.="</tr>";
-				$table.="<tr>";
-
-				// $table.="<td class=\"first_column\">$value</td>";
-			}
-			$i++;
-		}
-
-		$table.="</tr>";
-		$table.="</table>";
-		$table.="</a>";
-		$table.="</td>";
-		$table.="</tr>";
-		// $table.='<tr><td><a href="?price='.$x.'">'.$x.'</a></td></tr>';
-	}
-	$table.='</table>';
-	$table.='</div></div>';
-	echo "$table";
 
 
 	function fetch_data($company){
