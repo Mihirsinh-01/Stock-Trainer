@@ -21,6 +21,16 @@
 		.grph{
 			position: absolute;
 			left: 500px;
+			top: 200px;
+			background-color: green;
+		}
+		.tbl{
+			width:400px;
+			font-weight: bold;
+			font-size:20px;
+			margin-left: 400px;
+			margin-top:30px;
+
 		}
 	</style>
 </head>
@@ -36,7 +46,7 @@
 	include('include/navigation.php');
 	include('include/sidebar.php');
 	include("include/config.php");
-	echo '<div id="piechart" class="grph"></div>';
+	
 	$sql1= "SELECT balance FROM login WHERE username='".$_SESSION['username']."'";
 
 	$result = $conn->query($sql1);
@@ -71,19 +81,19 @@
 	}
 	$string.="['Cash',".$balance."]";
 
-	$table="<div><table>";
+	$table="<div><table class='tbl'>";
 	$table.="<tr>";
 	$table.="<td>Initial Position</td>";
-	$table.="<td>$Initial</td>";
+	$table.="<td>₹ $Initial</td>";
 	$table.="</tr>";
 
 	$table.="<tr>";
 	$table.="<td>Current Position</td>";
-	$table.="<td>$total</td>";
+	$table.="<td>₹ $total</td>";
 	$table.="</tr>";
 
 	$table.="<tr>";
-	$table.="<td>Groth Rate</td>";
+	$table.="<td>Growth Rate</td>";
 	$table.="<td>$growth%</td>";
 	$table.="</tr>";
 
@@ -93,6 +103,9 @@
 	// $table.="</tr>";
 
 	$table.="</table></div>";
+
+	echo '<div id="piechart" class="grph"></div>';
+
 	echo $table."<br>";
 	echo "<div>
 		<script>

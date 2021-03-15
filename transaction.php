@@ -91,6 +91,7 @@
 	include("include/sidebar.php");
 	include("include/config.php");
 
+	echo '<span id="transact" style="margin:250px;"><img style="margin-top:100px;" src="images/transaction.svg"></span>';
 		
 	// include('sidebar.php');
 	// echo '<div style="background-color:green;">dfsfsdf</div>';
@@ -103,7 +104,9 @@
 
     $sql1= "SELECT * FROM transaction WHERE username='".$_SESSION['username']."'";
 
-    echo '<div><div id="table-scroll"><table class="table table-hover" style="width:1200px; margin-top:30px; margin-left:100px;">
+
+	$result = $conn->query($sql1);
+	echo '<div id="head" style="display:none;"><div id="table-scroll"><table class="table table-hover" style="width:1200px; margin-top:30px; margin-left:100px;">
     <thead>	
    		<tr>
    			<th class="center">#</th>
@@ -118,9 +121,10 @@
     <tbody>
     ';
 
-	$result = $conn->query($sql1);
 	$data=array();
 	if ($result->num_rows > 0) {
+		echo '<script>document.getElementById("head").style.display="inline"</script>';
+		echo '<script>document.getElementById("transact").style.display="none"</script>';
 		$cnt=1;
 		while($row = $result->fetch_assoc()) {
 			echo '<tr><td class="center">'.$cnt.'. </td>';

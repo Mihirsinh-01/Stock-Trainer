@@ -29,10 +29,10 @@
 	  width:100px;
 	  border:0px solid red;
 	}
-	td{
+	.rt{
 		height: 60px;
 	}
-	tr:hover{
+	.rt:hover{
 		background-color: #f0f0f5;
 	}
 	
@@ -50,7 +50,7 @@
 		global $display;
 		$arr=array();
 		for($i=1;$i<count($company_data);$i++){
-			if(strstr(strtolower($company_data[$i][2]),strtolower($data))!=null){
+			if(strstr(strtolower($company_data[$i][2]),strtolower($data))!=null  || strstr(strtolower($company_data[$i][1]),strtolower($data))!=null ){
 				// print_r($arr);
 				array_push($arr, $display[$company_data[$i][1]]);
 			}
@@ -89,14 +89,14 @@
 		    echo SimpleXLSX::parseError();
 		}
 		$ar=dynamic_searching($str);
-		$table='<div id="table-wrapper" style="margin-left: 610px;">';
+		$table='<div id="table-wrapper" style="margin-left: 610px; margin-top: 80px;">';
 		$table.='<div id="table-scroll">';
 		$table.='<table id="tb" class="table" style="width:750px;">';
 		// $table='<table class="scrolldown">';
 		foreach($ar as $x){
 			
 
-			$table.='<tr>';
+			$table.='<tr class="rt">';
 			$table.='<td>';
 			$table.='<a href="?company='.$x.'">';
 			$table.=$x;

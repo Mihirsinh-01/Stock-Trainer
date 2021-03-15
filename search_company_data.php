@@ -88,6 +88,7 @@
 	include('include/sidebar.php');
 	include('fetch.php');
 	include('company_data.php');
+	
 // 	function company($y){
 // 		$url="https://in.finance.yahoo.com/quote/$y.ns/";
 // 		$html=file_get_contents($url);

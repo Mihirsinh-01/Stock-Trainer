@@ -71,10 +71,19 @@
 		$f_company=substr($company,0,strlen($company)-strlen($short_company)-3);
 		$_SESSION["f_company"]=$f_company;
 		$_SESSION['company']=$short_company;
-		echo '<script type="text/javascript"> window.location = "search_company_data.php" </script>';	
+			
+	}
+	function delete($short_company){
+		global $conn;
+		$sql = "DELETE FROM watchlist WHERE username='".$_SESSION['username']."' and s_sname='".$short_company."'";
+		if (mysqli_query($conn, $sql)) {}
 	}
 	if (isset($_GET['company'])){
-       fetch_data($_GET['company']);
+       echo '<script type="text/javascript"> window.location = "search_company_data.php" </script>';
+       // fetch_data($_GET['company']);
+    }
+    if (isset($_GET['delete'])){
+       delete($_GET['delete']);
     }
 
 	$sql1= "SELECT * FROM watchlist WHERE username='".$_SESSION['username']."'";
@@ -98,7 +107,6 @@
 	foreach($main_table as $row){
 		
 		$short_company=$row[1];
-		
 		$f_company=$row[0];
 		$_SESSION["f_company"]=$f_company;
 		$_SESSION['company']=$short_company;
@@ -107,7 +115,9 @@
 		$table.='<td>';
 		$table.='<a href="?company='.$short_company.'">';
 		$table.=$f_company." (".$short_company.")";
-		$table.='</a></td></tr>';
+		$table.='</a></td>';
+		$table.='<td class="trash"><a href="?delete='.$short_company.'"><i class="fa fa-trash" style="color: #8080ff;"></i></td>';
+		$table.='</tr>';
 	}
 	$table.='</table>';
 	$table.="</div></div>";

@@ -21,7 +21,6 @@
 			margin-left: 600px;
 		}
 		.buy1{
-			/*background-color: red;*/
 			margin-left: 500px;
 			margin-top:80px;
 			font-size: 30px;
@@ -130,6 +129,7 @@
 			<input type=\"submit\" name=\"buy\" value=\"Buy\" class=\"bt\"/>
 			<input type=\"submit\" name=\"sell\" value=\"Sell\" class=\"bt\"/>
 			<input type=\"submit\" name=\"watch\" value=\"Watch\" class=\"bt\"/>
+			<i class=\"fa fa-check-circle\" id=\"watching\" style=\"color: green; height:10px; visibility:visible; padding-left: 5px;\"></i>
 		</form>";
 	}
 
@@ -234,14 +234,6 @@
 				</form></td></tr></table>
 
 			</div>';
-		// echo '<div class="buy1"><form method="POST">
-		// 	<span>Available balance is '.$balance.'</span><br>
-		// 	<span>Price Per Share is '.$price.'</span><br>
-		// 	<LABEL>Enter number of stocks </LABEL>
-		// 	<input type="number" id="stock_no" name="stock_no" onkeyup="stock()"/><br><br>
-		// 	<input type="submit" name="confirm_buy" value="Buy" onclick="return confirmation(\'Confirm share purchase !\')"><br>
-		// 	Price <span id="span"></span>
-		// </form></div>';
 	}
 	else if(isset($_POST['confirm_buy'])){
 
@@ -310,14 +302,6 @@
 		$comp=$_SESSION['company'];
 		$price=$_SESSION['selected_stock_price'];
 
-		// echo '<form method="POST">
-		// 	<span>Available stocks '.$s_quantity.'</span><br>
-		// 	<LABEL>Enter numbre of stocks </LABEL>
-		// 	<input type="number" id="stock_no" name="stock_no"/><br><br>
-		// 	<input type="submit" name="confirm_sell" value="Sell" onclick="return confir()"><br>
-			
-		// </form>';
-
 		echo '
 				<div class="buy1">
 				<table style="width:1200px;"><tr>
@@ -379,32 +363,25 @@
 	}
 	else if(isset($_POST['watch'])){
 		$sql1= "SELECT * FROM watchlist WHERE username='".$_SESSION['username']."' and s_sname='".$_SESSION['company']."'";
-
+		echo "<script>document.getElementById('watching').style.visibility='visible';</script>";
 		$result = $conn->query($sql1);
 		if ($result->num_rows == 0){
 			$sql1 = "INSERT INTO watchlist VALUES ('".$_SESSION['username']."','".$_SESSION['company']."','".$_SESSION['f_company']."')";
 				if (mysqli_query($conn, $sql1)) {
-					echo "<script>alert('Added to Watchlist :-) ')</script>";
+					// echo "<script>alert('Added to Watchlist :-) ')</script>";
 				}
 		}
-		else{
-			echo "already";
-			echo "<script>alert('Already added to Watchlist :-( ')</script>";
-		}
+		// else{
+		// 	echo "<script>alert('Already added to Watchlist :-( ')</script>";
+		// }
 		initial_main();
 	}
 	else if(!isset($_POST['search'])){
 		initial_main();
+		echo "<script>document.getElementById('watching').style.visibility='hidden';</script>";
 		
 	}
 
 
-	// echo $_SESSION['company'];
-	// echo "<br>";
-	// list($price,$ratio,$s)=company($_SESSION['company']);
-	// echo "$price<br>";
-	// echo "$ratio<br>";
-	// list($col,$ans)=tab($s);
-	// print_table($col,$ans);
-
+	
 ?>

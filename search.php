@@ -79,7 +79,7 @@
 		global $display;
 		$arr=array();
 		for($i=1;$i<count($company_data);$i++){
-			if(strstr(strtolower($company_data[$i][2]),strtolower($data))!=null){
+			if(strstr(strtolower($company_data[$i][2]),strtolower($data))!=null || strstr(strtolower($company_data[$i][1]),strtolower($data))!=null ){
 				// print_r($arr);
 				array_push($arr, $display[$company_data[$i][1]]);
 			}

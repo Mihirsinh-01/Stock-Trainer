@@ -1,13 +1,13 @@
 <nav class="navbar navbar-light bg-dark navbar-expand">
   <div class="container-fluid" style=" margin-left: 6%;">
-    <a class="navbar-brand" href="#">	    	
+    <a class="navbar-brand" href="portfolio.php">	    	
       <font color="white" style="font-size: 30px; font-family: 'Robosto'">Stock Trainer</font>
     </a>
   </div>
   <div class="dropdown">
   	<a class="dropbtn" style="font-size: 30px; padding-right: 100px;">
   		<i class="fa fa-user" aria-hidden="true">
-	  	<?php echo $_SESSION['username'];?>  
+	  	<?php echo $_SESSION['username'];?>
       </i>
   	</a>
   	<div class="dropdown-content" style="z-index: 2;">
