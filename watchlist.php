@@ -64,6 +64,8 @@
 	include('include/sidebar.php');
 	include("include/config.php");
 
+	echo '<span id="watch" style="margin:250px;"><img style="margin-top:100px;" src="images/watchlist.svg"></span>';
+
 	function fetch_data($company){
 		$str=strrchr($company,"(");
 		$short_company=substr($str,1,strlen($str)-2);
@@ -91,6 +93,8 @@
 	$result = $conn->query($sql1);
 	$main_table=array();
 	if ($result->num_rows >0){
+		echo '<script>document.getElementById("watch").style.display="none"</script>';
+
 		while($row = $result->fetch_assoc()) {
 			$insider=array();
 			array_push($insider, $row["s_name"]);
