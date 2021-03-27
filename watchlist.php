@@ -1,6 +1,5 @@
 <?php
 	session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +80,7 @@
 		if (mysqli_query($conn, $sql)) {}
 	}
 	if (isset($_GET['company'])){
-       echo '<script type="text/javascript"> window.location = "search_company_data.php" </script>';
+       echo '<script type="text/javascript"> window.location = "company_table.php" </script>';
        // fetch_data($_GET['company']);
     }
     if (isset($_GET['delete'])){
@@ -91,9 +90,16 @@
 	$sql1= "SELECT * FROM watchlist WHERE username='".$_SESSION['username']."'";
 
 	$result = $conn->query($sql1);
+	$table="";
 	$main_table=array();
 	if ($result->num_rows >0){
 		echo '<script>document.getElementById("watch").style.display="none"</script>';
+		// echo '<script>document.getElementById("tb").style.display="inline"</script>';
+		$table='<div id="table-wrapper" style="margin-left: 440px;margin-top:50px;">';
+		$table.='<div id="table-scroll">';
+		$table.='<table id="tb" class="table" style="width:94%;">';
+		$table.='<thead><tr><th>#</th><th>Company Name</th><th>Remove</th></tr></thead>';
+		$table.='<tbody>';
 
 		while($row = $result->fetch_assoc()) {
 			$insider=array();
@@ -102,13 +108,11 @@
 			array_push($main_table, $insider);
 		}
 	}
-	// print_r($main_table);
 
-	$table='<div id="table-wrapper" style="margin-left: 640px;">';
-	$table.='<div id="table-scroll">';
-	$table.='<table id="tb" class="table" style="width:750px;">';
 	// $table='<table class="scrolldown">';
+	$cnt=1;
 	foreach($main_table as $row){
+		// echo '<script>document.getElementById("tb").style.display="inline"</script>';
 		
 		$short_company=$row[1];
 		$f_company=$row[0];
@@ -116,14 +120,16 @@
 		$_SESSION['company']=$short_company;
 		
 		$table.='<tr>';
+		$table.='<td>'.$cnt.'</td>';
 		$table.='<td>';
 		$table.='<a href="?company='.$short_company.'">';
 		$table.=$f_company." (".$short_company.")";
 		$table.='</a></td>';
-		$table.='<td class="trash"><a href="?delete='.$short_company.'"><i class="fa fa-trash" style="color: #8080ff;"></i></td>';
+		$table.='<td style="padding-left:30px;"><a href="?delete='.$short_company.'"><i class="fa fa-trash" style="color: #8080ff;"></i></td>';
 		$table.='</tr>';
+		$cnt++;
 	}
-	$table.='</table>';
+	$table.='</tbody></table>';
 	$table.="</div></div>";
 	echo $table;
 

@@ -127,15 +127,15 @@
 		echo '<script>document.getElementById("transact").style.display="none"</script>';
 		$cnt=1;
 		while($row = $result->fetch_assoc()) {
-			echo '<tr><td class="center">'.$cnt.'. </td>';
 			$full=$row["s_name"]." (".$row["s_sname"].")";
-			echo '<td>'.$full.'</td>';
-			echo '<td>₹ '.($row["s_totalprice"]/$row["s_quantity"]).'</td>';
-			echo '<td>'.$row["s_quantity"].'</td>';
-			echo '<td>₹ '.$row["s_totalprice"].'</td>';
-			echo '<td>'.$row["date"].'</td>';
-			if($row["buy"]==0) echo '<td>Bought</td>';
-			else echo '<td>Sold</td>';
+			echo '<tr><td class="center"><a href="?company='.$full.'">'.$cnt.'. </a></td>';
+			echo '<td><a href="?company='.$full.'">'.$full.'</a></td>';
+			echo '<td><a href="?company='.$full.'">₹ '.($row["s_totalprice"]/$row["s_quantity"]).'</a></td>';
+			echo '<td><a href="?company='.$full.'">'.$row["s_quantity"].'</a></td>';
+			echo '<td><a href="?company='.$full.'">₹ '.$row["s_totalprice"].'</a></td>';
+			echo '<td><a href="?company='.$full.'">'.$row["date"].'</a></td>';
+			if($row["buy"]==0) echo '<td><a href="?company='.$full.'">Sold</a></td>';
+			else echo '<td><a href="?company='.$full.'">Bought</a></td>';
 			echo '</tr>';
 			$cnt++;
 

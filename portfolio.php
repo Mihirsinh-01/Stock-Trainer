@@ -84,6 +84,15 @@
 	include("include/sidebar.php");
 	include("include/config.php");
 
+	function fetch_data($company){
+		$str=strrchr($company,"(");
+		$short_company=substr($str,1,strlen($str)-2);
+		$_SESSION['company']=$short_company;
+		$f_company=substr($company,0,strlen($company)-strlen($short_company)-3);
+		$_SESSION["f_company"]=$f_company;
+		echo '<script type="text/javascript"> window.location = "company_table.php" </script>';	
+	}
+
 	echo '<span id="portf" style="margin:250px;"><img style="margin-top:100px;" src="images/portfolio.svg"></span>';
 
 	// include('sidebar.php');
@@ -116,11 +125,11 @@
 		echo '<script>document.getElementById("portf").style.display="none"</script>';
 		$cnt=1;
 		while($row = $result->fetch_assoc()) {
-			echo '<tr><td class="center">'.$cnt.'. </td>';
 			$full=$row["s_name"]." (".$row["s_sname"].")";
-			echo '<td>'.$full.'</td>';
-			echo '<td>'.$row["s_quantity"].'</td>';
-			echo '<td>₹ '.$row["s_totalprice"].'</td>';
+			echo '<tr><td class="center"><a href="?company='.$full.'">'.$cnt.'</a>. </td>';
+			echo '<td><a href="?company='.$full.'">'.$full.'</a></td>';
+			echo '<td><a href="?company='.$full.'">'.$row["s_quantity"].'</a></td>';
+			echo '<td><a href="?company='.$full.'">₹ '.$row["s_totalprice"].'</a></td>';
 			echo '</tr>';
 			$cnt++;
 
@@ -129,13 +138,6 @@
 	}
 
 
-	function fetch_data($company){
-		$str=strrchr($company,"(");
-		$short_company=substr($str,1,strlen($str)-2);
-		$_SESSION['company']=$short_company;
-		$f_company=substr($company,0,strlen($company)-strlen($short_company)-3);
-		$_SESSION["f_company"]=$f_company;
-		echo '<script type="text/javascript"> window.location = "company_table.php" </script>';	
-	}
+	
 
 ?>

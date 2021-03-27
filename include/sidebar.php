@@ -10,10 +10,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<style type="text/css">
-		a:link {color: white; text-decoration: none; cursor: default;}      /* unvisited link */
-  	a:visited {color: black; text-decoration: none; cursor: default;}   /* visited link */
-  a:hover {color: white; text-decoration: none; cursor: default;}     /* mouse over link */
-  a:active {color: black; text-decoration: none; cursor: default;}
+		#side:link {color: white; text-decoration: none; cursor: default;}      /* unvisited link */
+  	#side:visited {color: black; text-decoration: none; cursor: default;}   /* visited link */
+    #side:hover {color: white; text-decoration: none; cursor: default;}     /* mouse over link */
+    #side:active {color: black; text-decoration: none; cursor: default;}
 
   .side{
     padding: 10px 20px;
