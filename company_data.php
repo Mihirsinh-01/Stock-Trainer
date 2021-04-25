@@ -129,7 +129,7 @@
 			<input type=\"submit\" name=\"buy\" value=\"Buy\" class=\"bt\"/>
 			<input type=\"submit\" name=\"sell\" value=\"Sell\" class=\"bt\"/>
 			<input type=\"submit\" name=\"watch\" value=\"Watch\" class=\"bt\"/>
-			<i class=\"fa fa-check-circle\" id=\"watching\" style=\"color: green; height:10px; visibility:visible; padding-left: 5px;\"></i>
+			<i class=\"fa fa-check-circle\" id=\"watching\" style=\"color: green; height:10px; visibility:hidden; padding-left: 5px;\"></i>
 		</form>";
 	}
 
@@ -375,6 +375,7 @@
 		// 	echo "<script>alert('Already added to Watchlist :-( ')</script>";
 		// }
 		initial_main();
+		echo "<script>document.getElementById('watching').style.visibility='visible';</script>";
 	}
 	else if(!isset($_POST['search'])){
 		initial_main();
