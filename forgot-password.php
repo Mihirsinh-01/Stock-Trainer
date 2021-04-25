@@ -15,21 +15,6 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
-	<script type="text/javascript">
-		function valid(){
-			var user=document.registration.username.value;
-			var flag=1;
-			if(user.length==0){
-				document.getElementById('msg1').style.color = 'red';
-				document.getElementById('msg1').innerHTML = 'Empty Email Not Allowed';
-				if(flag) document.registration.username.focus();
-				flag=0;
-			}
-			
-			if(flag==0) return false;
-			return true;
-		}
-	</script>
 	<style type="text/css">
 		input:hover{
 			border-color: #00ccff;
@@ -49,7 +34,7 @@
 			<div><img style="margin-left: 15%; margin-top: 10%;" src="images/forgot.svg" width="60%"></div>
 			<div style="padding-top: 13%; height: 70%; ">
 				<!-- <center> -->
-					<form method="POST" name="registration" onsubmit="return valid();">
+					<form method="POST" name="registration">
 						<fieldset>
 							<legend>
 								<h1><font style="font-size: 50px;">Reset Password</font></h1>
@@ -84,15 +69,21 @@
 
 	if(isset($_POST['submit'])){
 
-		// echo "nljn";
 		$email=$_POST['username'];
-		// echo $email;
+		echo "<script>document.getElementById('email').value='".$email."';</script>";
+		if(empty($email)){
+			echo "<script>document.getElementById('msg1').innerHTML='Empty Email Not Allowed';</script>";
+			$submit=true;
+		}
+		else if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+			echo "<script>document.getElementById('msg1').innerHTML = 'Enter the valid email address';</script>";
+			$submit=true;
+		}
 
 		$sql1= "SELECT * FROM login WHERE email='".$email."'";
 
 		$result = $conn->query($sql1);
 		if ($result->num_rows > 0) {
-			// echo "lnholn";
 			$_SESSION['email']=$email;
 
 			$otp=rand(1000,9999);
@@ -107,19 +98,6 @@
 			document.getElementById('msg1').innerHTML = 'Invalid Email ID';</script>";
 			echo "<script>document.getElementById('username').value='".$email."';</script>";
 		}
-
-		// if($_SESSION['otp']==$otp){
-		// 	include("include/config.php");
-
-		// 	$sql = "UPDATE login SET password='".$pass."' WHERE email='".$email."'";
-
-		// 	if (mysqli_query($conn, $sql)) {
-		// 	  echo '<script type="text/javascript"> window.location = "login.php" </script>';
-		// 	} 
-		// 	// else {
-		// 	//   echo "Error updating record: " . mysqli_error($conn);
-		// 	// }
-		// }
 	}
 	function send_otp($otp){
 

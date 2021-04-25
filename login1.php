@@ -120,7 +120,6 @@
 			}
 			if(password_verify($pass, $ans)){
 				$_SESSION['username']=$user;
-				$_SESSION['lastActiveTime']=time();
 				echo '<script type="text/javascript"> window.location = "portfolio.php" </script>';
 			}
 			else{

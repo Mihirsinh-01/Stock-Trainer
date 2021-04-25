@@ -31,9 +31,9 @@
 			else{
 				document.getElementById('msg1').innerHTML = '';
 			}
-			if(pass.length==0){
+			if(pass.length<8){
 				document.getElementById('msg3').style.color = 'red';
-				document.getElementById('msg3').innerHTML = 'Empty Password Not Allowed';
+				document.getElementById('msg3').innerHTML='Password length should at least 8';
 				if(flag) document.otp.password.focus();
 				flag=0;
 			}
@@ -106,7 +106,6 @@
 							</div><br><br>
 						</fieldset>
 					</form>
-				<!-- </center> -->
 			</div>
 		</div>
 	</div>
@@ -124,19 +123,15 @@
 			include("include/config.php");
 
 			
-
+			$pass=password_hash($pass,  PASSWORD_BCRYPT);
+			
 			$sql = "UPDATE login SET password='".$pass."' WHERE email='".$_SESSION['email']."'";
 
 			if (mysqli_query($conn, $sql)) {
 			  echo '<script type="text/javascript"> window.location = "login.php" </script>';
-			} 
-			// else {
-			//   echo "Error updating record: " . mysqli_error($conn);
-			// }
+			}
 		}
-		else{
-			// echo "ljkj";
-			
+		else{			
 			echo "<script>document.getElementById('msg1').style.color = 'red';
 			document.getElementById('msg1').innerHTML = 'Invalid OTP';</script>";
 			echo "<script>document.getElementById('username').value='".$otp."';</script>";

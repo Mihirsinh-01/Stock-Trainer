@@ -1,6 +1,5 @@
 <?php
-	session_start();
-	
+	include('include/checklogin.php');
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +19,8 @@
 	<link rel="stylesheet" href="css/dropdown.css">	
 	<style type="text/css">
 
-
+		a:link {color: black; text-decoration: none; cursor: default;}   
+		a:visited {color: black; text-decoration: none; cursor: default;}  
 
 		::-webkit-scrollbar {
 		    width: 0px;  /* Remove scrollbar space */

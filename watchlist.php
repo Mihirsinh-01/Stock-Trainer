@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	include('include/checklogin.php');
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +97,7 @@
 		// echo '<script>document.getElementById("tb").style.display="inline"</script>';
 		$table='<div id="table-wrapper" style="margin-left: 440px;margin-top:50px;">';
 		$table.='<div id="table-scroll">';
-		$table.='<table id="tb" class="table" style="width:94%;">';
+		$table.='<table id="tb" class="table table-hover" style="width:94%;">';
 		$table.='<thead><tr><th>#</th><th>Company Name</th><th>Remove</th></tr></thead>';
 		$table.='<tbody>';
 
